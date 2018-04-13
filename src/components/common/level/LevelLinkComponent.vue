@@ -1,0 +1,108 @@
+<template>
+  <div class="level-link">
+    <div :class="[borderColor, 'level-box']">
+      <div :class="['completed', levelCompleted ? 'visible' : 'invisible']">
+        <i class="material-icons mens-check-circle">check_circle</i>
+        <span class="completed-text">¡Completado!</span>
+      </div>
+      <div class="level-name">
+        <h3 :class="textColor">Nivel {{levelNumber}}</h3>
+        <span>{{levelText}}</span>
+      </div>
+      <div class="arrow">
+        <i :class="['material-icons', 'mens-arrow-right', textColor]">keyboard_arrow_right</i>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'LevelLink',
+  props: ['name', 'textColor', 'borderColor', 'levelCompleted', 'levelNumber', 'levelText']
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+@import './../../../assets/scss/_variables.scss';
+@import './../../../assets/scss/_mixins.scss';
+@import './../../../assets/scss/_partials.scss';
+
+.visible {
+  visibility: visible;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.mens-arrow-right,
+.mens-check-circle {
+  font-size: 38px;
+}
+
+.mens-check-circle {
+  color: $success;
+}
+
+.completed {
+  @include column-left;
+}
+
+.level-name {
+  @include column-center;
+}
+
+.arrow {
+  @include column-right;
+}
+
+.completed-text {
+  display: none;
+}
+
+.level-box {
+  border-width: 1.5px;
+  border-style: solid;
+  border-radius: 10px;
+  padding: 3%;
+  @include column-container(62px);
+  margin-bottom: 3%;
+}
+
+.level-name {
+  display: inline-block;
+}
+
+.level-name > h3 {
+  margin: 0;
+  font-size: 28px;
+  font-family: 'Cabin', sans-serif;
+}
+
+.level-name > span {
+  font-size: 20px;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    margin-top: 5%;
+  }
+
+  .level-box {
+    padding: 2%;
+  }
+
+  .completed-text {
+    display: inline-block;
+    margin-left: 15px;
+    color: $success;
+  }
+
+  .mens-arrow-right,
+  .mens-check-circle {
+    font-size: 48px;
+  }
+}
+</style>
