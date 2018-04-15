@@ -1,5 +1,5 @@
 <template>
-  <div class="level-link">
+  <router-link to="/lenguaje/facil" tag="div" class="level-link">
     <div :class="[borderColor, 'level-box']">
       <div :class="['completed', levelCompleted ? 'visible' : 'invisible']">
         <i class="material-icons mens-check-circle">check_circle</i>
@@ -13,13 +13,13 @@
         <i :class="['material-icons', 'mens-arrow-right', textColor]">keyboard_arrow_right</i>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
 export default {
   name: 'LevelLink',
-  props: ['name', 'textColor', 'borderColor', 'levelCompleted', 'levelNumber', 'levelText']
+  props: ['moduleName', 'textColor', 'borderColor', 'levelCompleted', 'levelNumber', 'levelText']
 }
 </script>
 
@@ -27,7 +27,10 @@ export default {
 <style lang="scss" scoped>
 @import './../../../assets/scss/_variables.scss';
 @import './../../../assets/scss/_mixins.scss';
-@import './../../../assets/scss/_partials.scss';
+
+.level-link {
+  cursor: pointer;
+}
 
 .visible {
   visibility: visible;

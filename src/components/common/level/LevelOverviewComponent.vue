@@ -13,22 +13,23 @@
         <i class="material-icons primary">keyboard_arrow_left</i>
         <router-link to="/">Inicio</router-link>
       </div>
-      <h2 :class="[color, 'module-title']">{{name}}</h2>
+      <h2 :class="[color, 'module-title']">{{moduleName}}</h2>
     </section>
-    <LevelLink :textColor="textColor" :borderColor="borderColor" :levelCompleted="levelCompleted" levelNumber="I" levelText="Fácil"></LevelLink>
-    <LevelLink :textColor="textColor" :borderColor="borderColor" :levelCompleted="levelCompleted" levelNumber="II" levelText="Medio"></LevelLink>
-    <LevelLink :textColor="textColor" :borderColor="borderColor" :levelCompleted="levelCompleted" levelNumber="III" levelText="Difícil"></LevelLink>
+    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" :levelCompleted="levelCompleted" levelNumber="I" levelText="Fácil"></LevelLink>
+    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" :levelCompleted="levelCompleted" levelNumber="II" levelText="Medio"></LevelLink>
+    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" :levelCompleted="levelCompleted" levelNumber="III" levelText="Difícil"></LevelLink>
   </div>
 </template>
 
 <script>
+// Componentes
 import LevelLink from './LevelLinkComponent'
 export default {
   name: 'LevelOverview',
   components: {
     LevelLink
   },
-  props: ['name', 'color'],
+  props: ['moduleName', 'color'],
   data: function () {
     return {
       levelCompleted: false // TODO: sustituir por valor en store
@@ -100,7 +101,6 @@ section {
 h2 {
   color: $front;
   font-size: 20px;
-  font-weight: 200;
 }
 
 @media (min-width: 768px) {

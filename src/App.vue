@@ -13,6 +13,7 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Cabin|Open+Sans');
 @import './assets/scss/_variables.scss';
+@import './assets/scss/_partials.scss';
 
 html {
   background-color: $background;
@@ -22,7 +23,7 @@ html {
   width: 95%;
   margin: 0 auto;
   color: $front;
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-family: $text;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

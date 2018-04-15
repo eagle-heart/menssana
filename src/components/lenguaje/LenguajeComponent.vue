@@ -1,11 +1,11 @@
 <template>
   <div>
-    <LevelOverview name="Lenguaje" color="primary"></LevelOverview>
+    <LevelOverview moduleName="Lenguaje" color="primary"></LevelOverview>
   </div>
 </template>
 
 <script>
-
+// Componentes
 import LevelOverview from './../common/level/LevelOverviewComponent'
 export default {
   name: 'Lenguaje',

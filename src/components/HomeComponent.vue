@@ -9,6 +9,7 @@
 </template>
 
 <script>
+// Componentes
 import Box from './common/BoxComponent'
 export default {
   name: 'Home',
