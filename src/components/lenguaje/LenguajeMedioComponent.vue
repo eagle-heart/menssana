@@ -1,13 +1,19 @@
 <template>
   <div>
     <ActivityHeader moduleName="lenguaje"></ActivityHeader>
-    <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="primary"></Instructions>
+    <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Medio" levelNumber="II" color="primary"></Instructions>
     <div v-else>
       <div v-if="activities.length">
         <div v-if="!isEnded">
-          <div class="question">{{ question }}</div>
-          <div>
-            <input class="answer" autofocus type="text" v-model="answer" :disabled="isSubmitDisabled" v-on:keyup.enter="checkAnswer">
+          <div class="possible-answers-container">
+            <span class="possible-answer" v-for="answer in allActivityAnswers" :id="answer">{{answer}} </span>
+          </div>
+          <div class="question">
+            {{ question[0] }}
+            <input class="answer" autofocus type="text" v-model="answers[0]" v-on:keyup.enter="checkAnswer">
+            {{ question[1] }}
+            <input class="answer" type="text" v-model="answers[1]" v-on:keyup.enter="checkAnswer">
+            {{ question[2] }}
           </div>
           <div :class="[isAnswerChecked ? 'visible' : 'invisible', 'check-answer-box']">
             <div class="empty-answer" v-if="isAnswerEmpty">
@@ -20,11 +26,12 @@
               </div>
               <div class="incorrect-answer" v-else>
                 <i class="material-icons mens-cancel">cancel</i>
-                Lo sentimos, es incorrecto. Respuesta correcta: {{correctAnswer[0]}}
+                Lo sentimos, es incorrecto. Las respuestas correctas son:
+                {{correctAnswers[0]}} y {{correctAnswers[1]}}
               </div>
             </div>
           </div>
-          <button class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">
+          <button class="check-answer-button" @click="checkAnswer">
             <i class="material-icons mens-visibility">visibility</i>
             Comprobar
           </button>
@@ -76,10 +83,10 @@ export default {
   mixins: [activityMixins],
   data: function () {
     return {
-      answer: '',
+      answers: [],
       isStarted: false,
       module: 'lenguaje',
-      level: 'facil',
+      level: 'medio',
       activities: [],
       activityIndex: 0,
       isAnswerCorrect: false,
@@ -87,47 +94,59 @@ export default {
       isAnswerEmpty: true,
       numberOfCorrectAnswers: 0,
       isEnded: false,
-      areAllAnswersCorrect: false,
-      isSubmitDisabled: false
+      areAllAnswersCorrect: false
     }
   },
   computed: {
     question: function () {
-      return this.activities[this.activityIndex].field_pregunta[0].value
+      return _.split(this.activities[this.activityIndex].field_pregunta[0].value, '*')
     },
-    correctAnswer: function () {
-      let rawAnswer = this.activities[this.activityIndex].field_respuesta[0].value
-      return [rawAnswer, _.capitalize(rawAnswer), _.lowerCase(rawAnswer)]
+    correctAnswers: function () {
+      return _.split(this.activities[this.activityIndex].field_respuesta[0].value, ', ')
+    },
+    allActivityAnswers: function () {
+      var answersCollection = []
+
+      for (let i = 0; i < this.activities.length; i++) {
+        let activityAnswers = _.split(this.activities[i].field_respuesta[0].value, ', ')
+        answersCollection.push(activityAnswers)
+      }
+
+      return _.shuffle(_.flatten(answersCollection))
     }
   },
   methods: {
     goToNextActivity: function () {
-      this.answer = ''
+      this.answers = []
       if (this.activityIndex === this.activities.length - 1) {
         this.endActivity()
       } else {
         this.activityIndex++
       }
     },
+    makeInvisible: function (values) {
+      for (let i = 0; i < values.length; i++) {
+        let word = document.getElementById(values[i])
+        word.classList.add('crossed')
+      }
+    },
     checkAnswer: function () {
       this.isAnswerChecked = true
-      if (this.answer) {
-        this.isAnswerEmpty = false
-        this.isSubmitDisabled = true
-        if (_.includes(this.correctAnswer, this.answer)) {
+      this.isAnswerEmpty = this.answers.length < 2 || _.includes(this.answers, undefined) || _.includes(this.answers, '')
+      if (!this.isAnswerEmpty) {
+        if (_.isEqual(this.answers, this.correctAnswers)) {
           this.isAnswerCorrect = true
           this.numberOfCorrectAnswers++
         }
         setTimeout(() => {
+          this.makeInvisible(this.correctAnswers)
           this.goToNextActivity()
+          var inputs = document.getElementsByClassName('answer')
+          inputs[0].focus()
           this.isAnswerChecked = false
           this.isAnswerCorrect = false
           this.isAnswerEmpty = true
-          this.isSubmitDisabled = false
-          var inputs = document.getElementsByClassName('answer')
-          inputs[0].disabled = false
-          inputs[0].focus()
-        }, 2000)
+        }, 500)
       }
     }
   }
@@ -138,10 +157,42 @@ export default {
 @import './../../assets/scss/_variables.scss';
 @import './../../assets/scss/_mixins.scss';
 
-.question {
+.answer {
   font-family: $text;
   color: $primary;
-  font-size: 56px;
+  font-size: 18px;
+  text-align: center;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: $primary;
+  background-color: $background;
+}
+
+.answer:focus {
+  outline: none;
+}
+
+.possible-answers-container {
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: $primary;
+  border-radius: 10px;
+  padding: 3%;
+}
+
+.possible-answer {
+  padding-right: 1%;
+  color: $primary;
+}
+
+.crossed {
+  text-decoration: line-through;
+}
+
+.question {
+  font-family: $text;
+  color: $front;
+  font-size: 20px;
   padding: 4% 0;
 }
 
@@ -180,23 +231,6 @@ export default {
 .incorrect-answer, .mens-cancel {
   color: $danger;
   font-size: 28px;
-}
-
-.answer {
-  font-family: $text;
-  color: $primary;
-  font-size: 56px;
-  text-align: center;
-  border-width: 0 0 2px 0;
-  border-style: solid;
-  border-color: $primary;
-  background-color: $background;
-  width: 90%;
-  margin-bottom: 4%;
-}
-
-.answer:focus {
-  outline: none;
 }
 
 .back-button,
@@ -245,10 +279,6 @@ export default {
 }
 
 @media (min-width: 768px) {
-  .answer {
-    width: 50%;
-  }
-
   .back-button,
   .start-again-button,
   .check-answer-button {

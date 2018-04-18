@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/lenguaje/facil" tag="div" class="level-link">
+  <router-link :to="levelRoute" tag="div" class="level-link">
     <div :class="[borderColor, 'level-box']">
       <div :class="['completed', levelCompleted ? 'visible' : 'invisible']">
         <i class="material-icons mens-check-circle">check_circle</i>
@@ -19,7 +19,12 @@
 <script>
 export default {
   name: 'LevelLink',
-  props: ['moduleName', 'textColor', 'borderColor', 'levelCompleted', 'levelNumber', 'levelText']
+  props: ['moduleName', 'textColor', 'borderColor', 'level', 'levelCompleted', 'levelNumber', 'levelText'],
+  computed: {
+    levelRoute: function () {
+      return '/lenguaje/' + this.level
+    }
+  }
 }
 </script>
 
