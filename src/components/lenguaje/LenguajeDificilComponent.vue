@@ -2,22 +2,15 @@
   <div>
     <ActivityHeader moduleName="lenguaje"></ActivityHeader>
     <!-- Instrucciones -->
-    <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Medio" levelNumber="II" color="primary"></Instructions>
+    <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Difícil" levelNumber="III" color="primary"></Instructions>
     <!-- Actividad comenzada -->
     <div v-else>
       <div v-if="questions.length">
         <div v-if="!isEnded">
-          <!-- Caja con las posibles respuestas -->
-          <div class="possible-answers-container">
-            <span class="possible-answer" v-for="answer in allActivityAnswers" :id="answer">{{answer}} </span>
-          </div>
           <!-- Bloque de preguntas y respuestas -->
-          <div class="question">
-            {{ question[0] }}
-            <input class="answer" autofocus type="text" v-model="answers[0]" v-on:keyup.enter="checkAnswer">
-            {{ question[1] }}
-            <input class="answer" type="text" v-model="answers[1]" v-on:keyup.enter="checkAnswer">
-            {{ question[2] }}
+          <div class="question">{{ question }}</div>
+          <div>
+            <input class="answer" autofocus type="text" v-model="answer" :disabled="isSubmitDisabled" v-on:keyup.enter="checkAnswer">
           </div>
           <!-- Bloque de comprobación de respuestas -->
           <div :class="[isAnswerChecked ? 'visible' : 'invisible', 'check-answer-box']">
@@ -31,8 +24,7 @@
               </div>
               <div class="incorrect-answer" v-else>
                 <i class="material-icons mens-cancel">cancel</i>
-                Lo sentimos, es incorrecto. Las respuestas correctas son:
-                {{correctAnswers[0]}} y {{correctAnswers[1]}}
+                Lo sentimos, es incorrecto. Respuesta correcta: {{correctAnswers[0]}}
               </div>
             </div>
           </div>
@@ -42,7 +34,7 @@
           <ActivityEnd :allCorrect="areAllAnswersCorrect" :correctAnswers="numberOfCorrectAnswers" :numberOfQuestions="questions.length"></ActivityEnd>
         </div>
         <!-- Botones -->
-        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer">
+        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">
           <i class="material-icons mens-visibility">visibility</i>
           Comprobar
         </button>
@@ -78,82 +70,73 @@ export default {
   mixins: [activityMixins],
   data: function () {
     return {
-      activityIndex: 0,
-      answers: [],
+      answer: '',
       areAllAnswersCorrect: false,
       isAnswerChecked: false,
       isAnswerCorrect: false,
       isAnswerEmpty: true,
       isEnded: false,
       isStarted: false,
-      level: 'medio',
+      isSubmitDisabled: false,
+      level: 'dificil',
       module: 'lenguaje',
       numberOfCorrectAnswers: 0,
+      questionIndex: 0,
       questions: []
     }
   },
   computed: {
-    question: function () {
-      return _.split(this.questions[this.activityIndex].field_pregunta[0].value, '*') // Creamos un array dividiendo la pregunta en tres partes, para insertar un input entre cada parte
-    },
     correctAnswers: function () {
-      return _.split(this.questions[this.activityIndex].field_respuesta[0].value, ', ') // Creamos un array con las dos respuestas correctas
+      let rawAnswer = this.questions[this.questionIndex].field_respuesta[0].value
+      return [rawAnswer, _.capitalize(rawAnswer), _.lowerCase(rawAnswer)] // La respuesta será correcta en mayúsculas, minúsculas y con la primera letra mayúscula
     },
-    allActivityAnswers: function () {
-      var answersCollection = [] // Creamos un array con todas las posibles respuestas correctas
-
-      for (let i = 0; i < this.questions.length; i++) {
-        let activityAnswers = _.split(this.questions[i].field_respuesta[0].value, ', ')
-        answersCollection.push(activityAnswers)
-      }
-
-      return _.shuffle(_.flatten(answersCollection)) // Hacemos aleatorio el orden de las palabras
+    question: function () {
+      return this.questions[this.questionIndex].field_pregunta[0].value
     }
   },
   methods: {
     // Función para comprobar respuesta
     checkAnswer: function () {
       this.isAnswerChecked = true
-      this.isAnswerEmpty = this.answers.length < 2 || _.includes(this.answers, undefined) || _.includes(this.answers, '') // Comprobamos si al menos una de las respuestas está vacía
-      if (!this.isAnswerEmpty) {
-        if (_.isEqual(this.answers, this.correctAnswers)) {
+      // Comprobamos si la respuesta está vacía
+      if (this.answer) {
+        this.isAnswerEmpty = false
+        this.isSubmitDisabled = true // Deshabilitamos la posibilidad de comprobar respuesta
+        // Comprobamos si la respuesta es correcta
+        if (_.includes(this.correctAnswers, this.answer)) {
           this.isAnswerCorrect = true
           this.numberOfCorrectAnswers++
         }
         setTimeout(() => {
-          this.crossOut(this.correctAnswers)
           this.goToNextQuestion()
-          var inputs = document.getElementsByClassName('answer')
-          inputs[0].focus() // Establecemos el foco en el primer input
           this.isAnswerChecked = false
           this.isAnswerCorrect = false
           this.isAnswerEmpty = true
-        }, 500)
+          this.isSubmitDisabled = false
+          // Establecemos el foco en el input de nuevo
+          var inputs = document.getElementsByClassName('answer')
+          inputs[0].disabled = false
+          inputs[0].focus()
+        }, 2000)
       }
     },
     // Función para pasar a la siguiente pregunta
     goToNextQuestion: function () {
-      this.answers = [] // Inicializamos las respuestas como campos vacíos
-      if (this.activityIndex === this.questions.length - 1) {
-        this.endActivity()
+      this.answer = '' // Inicializamos la respuesta como campo vacío
+      if (this.questionIndex === this.questions.length - 1) {
+        this.endActivity() // Si la pregunta es la última, la actividad se termina
       } else {
-        this.activityIndex++
-      }
-    },
-    // Función para tachar las palabras correctas
-    crossOut: function (values) {
-      for (let i = 0; i < values.length; i++) {
-        let word = document.getElementById(values[i])
-        word.classList.add('crossed')
+        this.questionIndex++ // Si no es la última pregunta, pasamos a la siguiente
       }
     }
-
   }
 }
 </script>
 
 <style lang="scss" scoped>
+// Variables
 @import './../../assets/scss/_variables.scss';
+// Mixins
 @import './../../assets/scss/_mixins.scss';
 
 .visible {
@@ -164,45 +147,30 @@ export default {
   visibility: hidden;
 }
 
-// Caja con las posibles respuestas
-.possible-answers-container {
-  border-width: 1.5px;
-  border-style: solid;
-  border-color: $primary;
-  border-radius: 10px;
-  padding: 3%;
-}
-
-.possible-answer {
-  padding-right: 1%;
-  color: $primary;
-}
-
-.crossed {
-  text-decoration: line-through;
-}
-
 // Bloque de preguntas y respuestas
-.answer {
-  font-family: $text;
+.question, .answer {
   color: $primary;
-  font-size: 18px;
-  text-align: center;
-  border-width: 0 0 1px 0;
-  border-style: solid;
-  border-color: $primary;
+  font-family: $text;
+  font-size: 56px;
+}
+
+.question {
+  padding: 4% 0;
+}
+
+.answer {
   background-color: $background;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid $primary;
+  margin-bottom: 4%;
+  text-align: center;
+  width: 90%;
 }
 
 .answer:focus {
   outline: none;
-}
-
-.question {
-  font-family: $text;
-  color: $front;
-  font-size: 20px;
-  padding: 4% 0;
 }
 
 // Bloque de comprobación de respuestas
@@ -268,6 +236,11 @@ export default {
 }
 
 @media (min-width: 768px) {
+  // Bloque de preguntas y respuestas
+  .answer {
+    width: 50%;
+  }
+
   // Botones
   .back-button,
   .start-again-button,

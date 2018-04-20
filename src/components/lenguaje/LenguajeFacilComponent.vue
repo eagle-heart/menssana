@@ -1,14 +1,18 @@
 <template>
   <div>
     <ActivityHeader moduleName="lenguaje"></ActivityHeader>
+    <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="primary"></Instructions>
+    <!-- Actividad comenzada -->
     <div v-else>
-      <div v-if="activities.length">
+      <div v-if="questions.length">
         <div v-if="!isEnded">
+          <!-- Bloque de preguntas y respuestas -->
           <div class="question">{{ question }}</div>
           <div>
             <input class="answer" autofocus type="text" v-model="answer" :disabled="isSubmitDisabled" v-on:keyup.enter="checkAnswer">
           </div>
+          <!-- Bloque de comprobación de respuestas -->
           <div :class="[isAnswerChecked ? 'visible' : 'invisible', 'check-answer-box']">
             <div class="empty-answer" v-if="isAnswerEmpty">
               Por favor, introduce una respuesta
@@ -20,39 +24,27 @@
               </div>
               <div class="incorrect-answer" v-else>
                 <i class="material-icons mens-cancel">cancel</i>
-                Lo sentimos, es incorrecto. Respuesta correcta: {{correctAnswer[0]}}
+                Lo sentimos, es incorrecto. Respuesta correcta: {{correctAnswers[0]}}
               </div>
             </div>
           </div>
-          <button class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">
-            <i class="material-icons mens-visibility">visibility</i>
-            Comprobar
-          </button>
-          <button class="start-again-button" @click="resetActivity">
-            <i class="material-icons mens-cached">cached</i>
-            Volver a empezar
-          </button>
         </div>
-        <div class="end" v-else>
-          <div v-if="areAllAnswersCorrect">
-            <h4>
-              <i class="material-icons mens-stars">stars</i>
-              ¡Enhorabuena!
-            </h4>
-            <p>Todas tus respuestas son correctas</p>
-          </div>
-          <div v-else>
-            <h4>¡Terminamos!</h4>
-            <p>Has acertado {{numberOfCorrectAnswers}} preguntas de {{activities.length}}</p>
-          </div>
-          <router-link to="/lenguaje" tag="div">
-            <button class="back-button">Volver a Lenguaje</button>
-          </router-link>
-          <button class="start-again-button" @click="resetActivity">
-            <i class="material-icons mens-cached">cached</i>
-            Volver a empezar
-          </button>
+        <!-- Actividad terminada -->
+        <div v-else>
+          <ActivityEnd :allCorrect="areAllAnswersCorrect" :correctAnswers="numberOfCorrectAnswers" :numberOfQuestions="questions.length"></ActivityEnd>
         </div>
+        <!-- Botones -->
+        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">
+          <i class="material-icons mens-visibility">visibility</i>
+          Comprobar
+        </button>
+        <router-link v-else to="/lenguaje" tag="div">
+          <button class="back-button">Volver a Lenguaje</button>
+        </router-link>
+        <button class="start-again-button" @click="resetActivity">
+          <i class="material-icons mens-cached">cached</i>
+          Volver a empezar
+        </button>
       </div>
     </div>
   </div>
@@ -63,6 +55,7 @@
 import _ from 'lodash'
 // Componentes
 import ActivityHeader from './../common/activity/ActivityHeaderComponent'
+import ActivityEnd from './../common/activity/ActivityEndComponent'
 import Instructions from './../common/instructions/InstructionsComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
@@ -71,63 +64,69 @@ export default {
   name: 'LenguajeFacilComponent',
   components: {
     ActivityHeader,
+    ActivityEnd,
     Instructions
   },
   mixins: [activityMixins],
   data: function () {
     return {
       answer: '',
-      isStarted: false,
-      module: 'lenguaje',
-      level: 'facil',
-      activities: [],
-      activityIndex: 0,
-      isAnswerCorrect: false,
-      isAnswerChecked: false,
-      isAnswerEmpty: true,
-      numberOfCorrectAnswers: 0,
-      isEnded: false,
       areAllAnswersCorrect: false,
-      isSubmitDisabled: false
+      isAnswerChecked: false,
+      isAnswerCorrect: false,
+      isAnswerEmpty: true,
+      isEnded: false,
+      isStarted: false,
+      isSubmitDisabled: false,
+      level: 'facil',
+      module: 'lenguaje',
+      numberOfCorrectAnswers: 0,
+      questionIndex: 0,
+      questions: []
     }
   },
   computed: {
-    question: function () {
-      return this.activities[this.activityIndex].field_pregunta[0].value
+    correctAnswers: function () {
+      let rawAnswer = this.questions[this.questionIndex].field_respuesta[0].value
+      return [rawAnswer, _.capitalize(rawAnswer), _.lowerCase(rawAnswer)] // La respuesta será correcta en mayúsculas, minúsculas y con la primera letra mayúscula
     },
-    correctAnswer: function () {
-      let rawAnswer = this.activities[this.activityIndex].field_respuesta[0].value
-      return [rawAnswer, _.capitalize(rawAnswer), _.lowerCase(rawAnswer)]
+    question: function () {
+      return this.questions[this.questionIndex].field_pregunta[0].value
     }
   },
   methods: {
-    goToNextActivity: function () {
-      this.answer = ''
-      if (this.activityIndex === this.activities.length - 1) {
-        this.endActivity()
-      } else {
-        this.activityIndex++
-      }
-    },
+    // Función para comprobar respuesta
     checkAnswer: function () {
       this.isAnswerChecked = true
+      // Comprobamos si la respuesta está vacía
       if (this.answer) {
         this.isAnswerEmpty = false
-        this.isSubmitDisabled = true
-        if (_.includes(this.correctAnswer, this.answer)) {
+        this.isSubmitDisabled = true // Deshabilitamos la posibilidad de comprobar respuesta
+        // Comprobamos si la respuesta es correcta
+        if (_.includes(this.correctAnswers, this.answer)) {
           this.isAnswerCorrect = true
           this.numberOfCorrectAnswers++
         }
         setTimeout(() => {
-          this.goToNextActivity()
+          this.goToNextQuestion()
           this.isAnswerChecked = false
           this.isAnswerCorrect = false
           this.isAnswerEmpty = true
           this.isSubmitDisabled = false
+          // Establecemos el foco en el input de nuevo
           var inputs = document.getElementsByClassName('answer')
           inputs[0].disabled = false
           inputs[0].focus()
         }, 2000)
+      }
+    },
+    // Función para pasar a la siguiente pregunta
+    goToNextQuestion: function () {
+      this.answer = '' // Inicializamos la respuesta como campo vacío
+      if (this.questionIndex === this.questions.length - 1) {
+        this.endActivity() // Si la pregunta es la última, la actividad se termina
+      } else {
+        this.questionIndex++ // Si no es la última pregunta, pasamos a la siguiente
       }
     }
   }
@@ -135,15 +134,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// Variables
 @import './../../assets/scss/_variables.scss';
+// Mixins
 @import './../../assets/scss/_mixins.scss';
-
-.question {
-  font-family: $text;
-  color: $primary;
-  font-size: 56px;
-  padding: 4% 0;
-}
 
 .visible {
   visibility: visible;
@@ -153,20 +147,50 @@ export default {
   visibility: hidden;
 }
 
+// Bloque de preguntas y respuestas
+.question, .answer {
+  color: $primary;
+  font-family: $text;
+  font-size: 56px;
+}
+
+.question {
+  padding: 4% 0;
+}
+
+.answer {
+  background-color: $background;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid $primary;
+  margin-bottom: 4%;
+  text-align: center;
+  width: 90%;
+}
+
+.answer:focus {
+  outline: none;
+}
+
+// Bloque de comprobación de respuestas
+.check-answer-box {
+  @include column-container(150px);
+}
+
 .empty-answer {
   color: $primary;
+}
+
+.correct-answer,
+.mens-check-circle,
+.empty-answer {
   font-size: 32px;
 }
 
-.correct-answer, .mens-check-circle {
+.correct-answer,
+.mens-check-circle {
   color: $success;
-  font-size: 32px;
-}
-
-.mens-visibility,
-.mens-cached,
-.mens-stars {
-  vertical-align: middle;
 }
 
 .correct-answer,
@@ -174,7 +198,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
 }
 
 .incorrect-answer, .mens-cancel {
@@ -182,21 +205,10 @@ export default {
   font-size: 28px;
 }
 
-.answer {
-  font-family: $text;
-  color: $primary;
-  font-size: 56px;
-  text-align: center;
-  border-width: 0 0 2px 0;
-  border-style: solid;
-  border-color: $primary;
-  background-color: $background;
-  width: 90%;
-  margin-bottom: 4%;
-}
-
-.answer:focus {
-  outline: none;
+// Botones
+.mens-visibility,
+.mens-cached {
+  vertical-align: middle;
 }
 
 .back-button,
@@ -205,10 +217,8 @@ export default {
   font-family: $text;
   font-size: 20px;
   padding: 2% 10%;
-  border-style: solid;
+  border: 1.5px solid $primary;
   border-radius: 10px;
-  border-width: 1.5px;
-  border-color: $primary;
   width: 100%;
   cursor: pointer;
 }
@@ -225,30 +235,13 @@ export default {
   margin-bottom: 3%;
 }
 
-.end .mens-stars {
-  font-size: 48px;
-}
-
-.end h4 {
-  font-size: 48px;
-  font-family: $brand;
-  color: $primary;
-}
-
-.end p {
-  font-size: 32px;
-  color: $primary;
-}
-
-.check-answer-box {
-  @include column-container(150px);
-}
-
 @media (min-width: 768px) {
+  // Bloque de preguntas y respuestas
   .answer {
     width: 50%;
   }
 
+  // Botones
   .back-button,
   .start-again-button,
   .check-answer-button {

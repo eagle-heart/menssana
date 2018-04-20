@@ -4,6 +4,7 @@ import HomeComponent from '@/components/HomeComponent'
 import LenguajeComponent from '@/components/lenguaje/LenguajeComponent'
 import LenguajeFacilComponent from '@/components/lenguaje/LenguajeFacilComponent'
 import LenguajeMedioComponent from '@/components/lenguaje/LenguajeMedioComponent'
+import LenguajeDificilComponent from '@/components/lenguaje/LenguajeDificilComponent'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/lenguaje/medio',
       name: 'LenguajeMedioComponent',
       component: LenguajeMedioComponent
+    },
+    {
+      path: '/lenguaje/dificil',
+      name: 'LenguajeDificilComponent',
+      component: LenguajeDificilComponent
     }
   ]
 })

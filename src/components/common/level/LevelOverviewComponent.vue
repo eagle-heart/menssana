@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Cabecera -->
     <header>
       <router-link class="back-button" to="/" tag="div">
         <i class="material-icons primary">arrow_back</i>
@@ -15,6 +16,7 @@
       </div>
       <h2 :class="[color, 'module-title']">{{moduleName}}</h2>
     </section>
+    <!-- Enlaces a los niveles -->
     <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="facil" :levelCompleted="levelCompleted" levelNumber="I" levelText="Fácil"></LevelLink>
     <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="medio" :levelCompleted="levelCompleted" levelNumber="II" levelText="Medio"></LevelLink>
     <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="dificil" :levelCompleted="levelCompleted" levelNumber="III" levelText="Difícil"></LevelLink>
@@ -24,6 +26,7 @@
 <script>
 // Componentes
 import LevelLink from './LevelLinkComponent'
+
 export default {
   name: 'LevelOverview',
   components: {
@@ -50,6 +53,22 @@ export default {
 @import './../../../assets/scss/_variables.scss';
 @import './../../../assets/scss/_mixins.scss';
 
+header,
+section {
+  @include column-container(50px);
+  margin: 10% 0;
+}
+
+.back-button,
+.back-link {
+  @include column-left;
+}
+
+.title,
+.module-title {
+  @include column-center;
+}
+
 .primary,
 .back-link > a {
   color: $primary;
@@ -74,22 +93,6 @@ h1 {
   font-size: 36px;
 }
 
-header,
-section {
-  @include column-container(50px);
-  margin: 10% 0;
-}
-
-.back-button,
-.back-link {
-  @include column-left;
-}
-
-.title,
-.module-title {
-  @include column-center;
-}
-
 .module-title {
   margin: 0;
 }
@@ -104,6 +107,11 @@ h2 {
 }
 
 @media (min-width: 768px) {
+  #level {
+    width: 70%;
+    margin: 0 auto;
+  }
+
   h1 {
     font-size: 48px;
   }
@@ -120,11 +128,6 @@ h2 {
 
   .back-link {
     visibility: visible;
-  }
-
-  #level {
-    width: 70%;
-    margin: 0 auto;
   }
 }
 </style>

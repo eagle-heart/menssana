@@ -1,14 +1,17 @@
 <template>
   <router-link :to="levelRoute" tag="div" class="level-link">
     <div :class="[borderColor, 'level-box']">
+      <!-- Icono de nivel completado -->
       <div :class="['completed', levelCompleted ? 'visible' : 'invisible']">
         <i class="material-icons mens-check-circle">check_circle</i>
         <span class="completed-text">¡Completado!</span>
       </div>
+      <!-- Nombre de nivel -->
       <div class="level-name">
         <h3 :class="textColor">Nivel {{levelNumber}}</h3>
         <span>{{levelText}}</span>
       </div>
+      <!-- Flecha -->
       <div class="arrow">
         <i :class="['material-icons', 'mens-arrow-right', textColor]">keyboard_arrow_right</i>
       </div>
@@ -22,13 +25,12 @@ export default {
   props: ['moduleName', 'textColor', 'borderColor', 'level', 'levelCompleted', 'levelNumber', 'levelText'],
   computed: {
     levelRoute: function () {
-      return '/lenguaje/' + this.level
+      return '/' + this.moduleName + '/' + this.level
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import './../../../assets/scss/_variables.scss';
 @import './../../../assets/scss/_mixins.scss';

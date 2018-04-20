@@ -22,6 +22,7 @@ export default {
 <style lang="scss" scoped>
 @import './../assets/scss/_variables.scss';
 
+// Títulos
 h1 {
   color: $primary;
   font-family: $brand;
