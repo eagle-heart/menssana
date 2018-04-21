@@ -47,6 +47,7 @@
         </button>
       </div>
     </div>
+    <Disclaimer></Disclaimer>
   </div>
 </template>
 
@@ -56,6 +57,7 @@ import _ from 'lodash'
 // Componentes
 import ActivityHeader from './../common/activity/ActivityHeaderComponent'
 import ActivityEnd from './../common/activity/ActivityEndComponent'
+import Disclaimer from './../common/DisclaimerComponent'
 import Instructions from './../common/instructions/InstructionsComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
@@ -65,6 +67,7 @@ export default {
   components: {
     ActivityHeader,
     ActivityEnd,
+    Disclaimer,
     Instructions
   },
   mixins: [activityMixins],
