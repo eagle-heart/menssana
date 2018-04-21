@@ -20,12 +20,20 @@
 </template>
 
 <script>
+// Librerías
+import _ from 'lodash'
+
 export default {
   name: 'LevelLink',
-  props: ['moduleName', 'textColor', 'borderColor', 'level', 'levelCompleted', 'levelNumber', 'levelText'],
+  props: ['moduleName', 'textColor', 'borderColor', 'level', 'levelNumber', 'levelText'],
   computed: {
     levelRoute: function () {
       return '/' + this.moduleName + '/' + this.level
+    },
+    levelCompleted: function () {
+      var level = this.level
+      var state = 'completedLevel' + this.moduleName
+      return this.$store.state[state][this.level] // comprobamos si el nivel está completado
     }
   }
 }

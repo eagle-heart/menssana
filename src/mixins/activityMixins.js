@@ -1,3 +1,5 @@
+// Librerías
+import _ from 'lodash'
 // Servicios
 import ActivityService from './../services/ActivityService'
 const activityService = new ActivityService()
@@ -21,6 +23,8 @@ var activityMixins = {
       this.isEnded = true
       if (this.numberOfCorrectAnswers === this.questions.length) {
         this.areAllAnswersCorrect = true
+        let moduleName = _.capitalize(this.module)
+        this.$store.commit('setCompletedLevel' + moduleName, this.level) // llamamos al store para establecer nivel completado
       }
     },
     // Función para resetear la actividad

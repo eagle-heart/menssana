@@ -17,9 +17,9 @@
       <h2 :class="[color, 'module-title']">{{moduleName}}</h2>
     </section>
     <!-- Enlaces a los niveles -->
-    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="facil" :levelCompleted="levelCompleted" levelNumber="I" levelText="Fácil"></LevelLink>
-    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="medio" :levelCompleted="levelCompleted" levelNumber="II" levelText="Medio"></LevelLink>
-    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="dificil" :levelCompleted="levelCompleted" levelNumber="III" levelText="Difícil"></LevelLink>
+    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="facil" levelNumber="I" levelText="Fácil"></LevelLink>
+    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="medio" levelNumber="II" levelText="Medio"></LevelLink>
+    <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="dificil" levelNumber="III" levelText="Difícil"></LevelLink>
   </div>
 </template>
 
