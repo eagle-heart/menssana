@@ -120,7 +120,7 @@ export default {
           var inputs = document.getElementsByClassName('answer')
           inputs[0].disabled = false
           inputs[0].focus()
-        }, 2000)
+        }, 1500)
       }
     },
     // Función para pasar a la siguiente pregunta
