@@ -14,9 +14,9 @@
           <!-- Bloque de preguntas y respuestas -->
           <div class="question">
             {{ question[0] }}
-            <input class="answer" autofocus type="text" v-model="answers[0]" v-on:keyup.enter="checkAnswer">
+            <input class="answer" autofocus :disabled="isSubmitDisabled" type="text" v-model="answers[0]" v-on:keyup.enter="checkAnswer">
             {{ question[1] }}
-            <input class="answer" type="text" v-model="answers[1]" v-on:keyup.enter="checkAnswer">
+            <input class="answer" :disabled="isSubmitDisabled" type="text" v-model="answers[1]" v-on:keyup.enter="checkAnswer">
             {{ question[2] }}
           </div>
           <!-- Bloque de comprobación de respuestas -->
@@ -42,7 +42,7 @@
           <ActivityEnd :allCorrect="areAllAnswersCorrect" :correctAnswers="numberOfCorrectAnswers" :numberOfQuestions="questions.length"></ActivityEnd>
         </div>
         <!-- Botones -->
-        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer">
+        <button v-if="!isEnded" class="check-answer-button" :disabled="isSubmitDisabled" @click="checkAnswer">
           <i class="material-icons mens-visibility">visibility</i>
           Comprobar
         </button>
@@ -89,6 +89,7 @@ export default {
       isAnswerEmpty: true,
       isEnded: false,
       isStarted: false,
+      isSubmitDisabled: false,
       level: 'medio',
       module: 'lenguaje',
       numberOfCorrectAnswers: 0,
@@ -119,6 +120,7 @@ export default {
       this.isAnswerChecked = true
       this.isAnswerEmpty = this.answers.length < 2 || _.includes(this.answers, undefined) || _.includes(this.answers, '') // Comprobamos si al menos una de las respuestas está vacía
       if (!this.isAnswerEmpty) {
+        this.isSubmitDisabled = true // Deshabilitamos la posibilidad de comprobar respuesta
         if (_.isEqual(this.answers, this.correctAnswers)) {
           this.isAnswerCorrect = true
           this.numberOfCorrectAnswers++
@@ -126,11 +128,13 @@ export default {
         setTimeout(() => {
           this.crossOut(this.correctAnswers)
           this.goToNextQuestion()
-          var inputs = document.getElementsByClassName('answer')
-          inputs[0].focus() // Establecemos el foco en el primer input
           this.isAnswerChecked = false
           this.isAnswerCorrect = false
           this.isAnswerEmpty = true
+          this.isSubmitDisabled = false
+          var inputs = document.getElementsByClassName('answer')
+          inputs[0].disabled = false
+          inputs[0].focus() // Establecemos el foco en el primer input
         }, 2000)
       }
     },
