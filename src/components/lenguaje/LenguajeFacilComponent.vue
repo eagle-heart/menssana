@@ -13,11 +13,11 @@
             <input class="answer" autofocus type="text" v-model="answer" :disabled="isSubmitDisabled" v-on:keyup.enter="checkAnswer">
           </div>
           <!-- Bloque de comprobación de respuestas -->
-          <div :class="[isAnswerChecked ? 'visible' : 'invisible', 'check-answer-box']">
+          <div v-if="isAnswerChecked">
             <div class="empty-answer" v-if="isAnswerEmpty">
               Por favor, introduce una respuesta
             </div>
-            <div v-else>
+            <div v-else :class="[isAnswerChecked ? 'visible' : 'invisible']">
               <div class="correct-answer" v-if="isAnswerCorrect">
                 <i class="material-icons mens-check-circle">check_circle</i>
                 ¡Correcto!
@@ -143,11 +143,12 @@ export default {
 @import './../../assets/scss/_mixins.scss';
 
 .visible {
-  visibility: visible;
+  display: block;
+  @include column-container(150px);
 }
 
 .invisible {
-  visibility: hidden;
+  display: none;
 }
 
 // Bloque de preguntas y respuestas
@@ -176,18 +177,13 @@ export default {
   outline: none;
 }
 
-// Bloque de comprobación de respuestas
-.check-answer-box {
-  @include column-container(150px);
-}
-
 .empty-answer {
   color: $primary;
+  font-size: 18px;
 }
 
 .correct-answer,
-.mens-check-circle,
-.empty-answer {
+.mens-check-circle {
   font-size: 32px;
 }
 
@@ -260,6 +256,14 @@ export default {
   .check-answer-button {
     float: right;
     margin-bottom: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .invisible {
+    display: block;
+    height: 150px;
+    visibility: hidden;
   }
 }
 </style>

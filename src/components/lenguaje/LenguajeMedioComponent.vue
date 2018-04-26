@@ -20,11 +20,11 @@
             {{ question[2] }}
           </div>
           <!-- Bloque de comprobación de respuestas -->
-          <div :class="[isAnswerChecked ? 'visible' : 'invisible', 'check-answer-box']">
+          <div v-if="isAnswerChecked">
             <div class="empty-answer" v-if="isAnswerEmpty">
               Por favor, introduce una respuesta
             </div>
-            <div v-else>
+            <div v-else :class="[isAnswerChecked ? 'visible' : 'invisible']">
               <div class="correct-answer" v-if="isAnswerCorrect">
                 <i class="material-icons mens-check-circle">check_circle</i>
                 ¡Correcto!
@@ -164,11 +164,12 @@ export default {
 @import './../../assets/scss/_mixins.scss';
 
 .visible {
-  visibility: visible;
+  display: block;
+  @include column-container(150px);
 }
 
 .invisible {
-  visibility: hidden;
+  display: none;
 }
 
 // Caja con las posibles respuestas
@@ -212,18 +213,13 @@ export default {
   padding: 4% 0;
 }
 
-// Bloque de comprobación de respuestas
-.check-answer-box {
-  @include column-container(150px);
-}
-
 .empty-answer {
   color: $primary;
+  font-size: 18px;
 }
 
 .correct-answer,
-.mens-check-circle,
-.empty-answer {
+.mens-check-circle {
   font-size: 32px;
 }
 
@@ -291,6 +287,14 @@ export default {
   .check-answer-button {
     float: right;
     margin-bottom: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .invisible {
+    display: block;
+    height: 150px;
+    visibility: hidden;
   }
 }
 </style>
