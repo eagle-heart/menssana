@@ -20,11 +20,11 @@
             {{ question[2] }}
           </div>
           <!-- Bloque de comprobación de respuestas -->
-          <div v-if="isAnswerChecked">
+          <div :class="[isAnswerChecked ? 'visible' : 'invisible']">
             <div class="empty-answer" v-if="isAnswerEmpty">
               Por favor, introduce una respuesta
             </div>
-            <div v-else :class="[isAnswerChecked ? 'visible' : 'invisible']">
+            <div v-else>
               <div class="correct-answer" v-if="isAnswerCorrect">
                 <i class="material-icons mens-check-circle">check_circle</i>
                 ¡Correcto!
@@ -165,7 +165,6 @@ export default {
 
 .visible {
   display: block;
-  @include column-container(150px);
 }
 
 .invisible {
@@ -237,7 +236,7 @@ export default {
 
 .incorrect-answer, .mens-cancel {
   color: $danger;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 // Botones
@@ -291,10 +290,16 @@ export default {
 }
 
 @media (min-width: 1024px) {
+  .visible {
+    @include column-container(150px);
+  }
   .invisible {
     display: block;
     height: 150px;
     visibility: hidden;
+  }
+  .incorrect-answer {
+    font-size: 28px;
   }
 }
 </style>

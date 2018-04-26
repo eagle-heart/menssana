@@ -13,11 +13,11 @@
             <input class="answer" autofocus type="text" v-model="answer" :disabled="isSubmitDisabled" v-on:keyup.enter="checkAnswer">
           </div>
           <!-- Bloque de comprobación de respuestas -->
-          <div v-if="isAnswerChecked">
+          <div :class="[isAnswerChecked ? 'visible' : 'invisible']">
             <div class="empty-answer" v-if="isAnswerEmpty">
               Por favor, introduce una respuesta
             </div>
-            <div v-else :class="[isAnswerChecked ? 'visible' : 'invisible']">
+            <div v-else>
               <div class="correct-answer" v-if="isAnswerCorrect">
                 <i class="material-icons mens-check-circle">check_circle</i>
                 ¡Correcto!
@@ -144,7 +144,6 @@ export default {
 
 .visible {
   display: block;
-  @include column-container(150px);
 }
 
 .invisible {
@@ -260,6 +259,9 @@ export default {
 }
 
 @media (min-width: 1024px) {
+  .visible {
+    @include column-container(150px);
+  }
   .invisible {
     display: block;
     height: 150px;
