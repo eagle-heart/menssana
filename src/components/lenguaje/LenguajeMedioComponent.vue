@@ -121,10 +121,7 @@ export default {
       this.isAnswerEmpty = this.answers.length < 2 || _.includes(this.answers, undefined) || _.includes(this.answers, '') // Comprobamos si al menos una de las respuestas está vacía
       if (!this.isAnswerEmpty) {
         this.isSubmitDisabled = true // Deshabilitamos la posibilidad de comprobar respuesta
-        if (_.isEqual(this.answers, this.correctAnswers)) {
-          this.isAnswerCorrect = true
-          this.numberOfCorrectAnswers++
-        }
+        this.checkIfAnswersAreCorrect() // Comprobamos si ambas respuestas son correctas
         setTimeout(() => {
           this.crossOut(this.correctAnswers)
           this.goToNextQuestion()
@@ -136,6 +133,20 @@ export default {
           inputs[0].disabled = false
           inputs[0].focus() // Establecemos el foco en el primer input
         }, 2000)
+      }
+    },
+    checkIfAnswersAreCorrect: function () {
+      var areAllCorrect = true
+      for (let i = 0; i < this.answers.length; i++) {
+        // Comprobamos si cada respuesta es igual a la respuesta correcta o a la respuesta correcta capitalizada
+        let areAnswersEqual = this.answers[i] === this.correctAnswers[i] || this.answers[i] === _.capitalize(this.correctAnswers[i])
+        if (!areAnswersEqual) {
+          areAllCorrect = false
+        }
+      }
+      if (areAllCorrect) {
+        this.isAnswerCorrect = true
+        this.numberOfCorrectAnswers++
       }
     },
     // Función para pasar a la siguiente pregunta
