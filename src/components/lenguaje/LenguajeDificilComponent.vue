@@ -154,7 +154,7 @@ export default {
 .question, .answer {
   color: $primary;
   font-family: $text;
-  font-size: 56px;
+  font-size: 42px;
 }
 
 .question {
