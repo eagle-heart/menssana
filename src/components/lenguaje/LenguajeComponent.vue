@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LevelOverview moduleName="Lenguaje" color="primary"></LevelOverview>
+    <LevelOverview moduleName="Lenguaje" moduleTitle="Lenguaje" color="primary"></LevelOverview>
     <Disclaimer></Disclaimer>
   </div>
 </template>

@@ -1,11 +1,11 @@
 <template>
   <header>
     <div class="back-link">
-      <i class="material-icons text-primary">keyboard_arrow_left</i>
-      <router-link :to="backRoute">{{moduleNameCapitalized}}</router-link>
+      <i :class="[textColor, 'material-icons']">keyboard_arrow_left</i>
+      <router-link :class="textColor" :to="backRoute">{{moduleTitle}}</router-link>
     </div>
     <router-link to="/" class="title" tag="div">
-      <h1>menssana</h1>
+      <h1 :class="textColor">menssana</h1>
     </router-link>
   </header>
 </template>
@@ -15,13 +15,13 @@
 import _ from 'lodash'
 export default {
   name: 'ActivityHeader',
-  props: ['moduleName'],
+  props: ['color', 'moduleName', 'moduleTitle'],
   computed: {
     backRoute: function () {
       return '/' + this.moduleName
     },
-    moduleNameCapitalized: function () {
-      return _.capitalize(this.moduleName)
+    textColor: function () {
+      return 'text-' + this.color
     }
   }
 }
@@ -53,7 +53,6 @@ header {
 }
 
 .back-link > a {
-  color: $primary;
   text-decoration: underline;
   font-size: 18px;
 }

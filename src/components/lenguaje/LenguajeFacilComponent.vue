@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ActivityHeader moduleName="lenguaje"></ActivityHeader>
+    <ActivityHeader color="primary"  moduleName="lenguaje" moduleTitle="Lenguaje"></ActivityHeader>
     <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="primary"></Instructions>
     <!-- Actividad comenzada -->
