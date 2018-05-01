@@ -115,7 +115,6 @@ export default {
     },
     correctResult: function () { // Se suman los números correctos para obtener el resultado final
       var correctResult = 0
-      _.map(this.correctAnswers, _.parseInt);
       _.forEach(this.questions, function (item) {
         let correctAnswer = _.parseInt(item.field_respuesta[0].value)
         correctResult += correctAnswer

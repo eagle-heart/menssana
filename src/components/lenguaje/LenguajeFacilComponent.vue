@@ -31,7 +31,7 @@
         </div>
         <!-- Actividad terminada -->
         <div v-else>
-          <ActivityEnd :allCorrect="areAllAnswersCorrect" :correctAnswers="numberOfCorrectAnswers" :numberOfQuestions="questions.length"></ActivityEnd>
+          <ActivityEnd :allCorrect="areAllAnswersCorrect" color="primary" :correctAnswers="numberOfCorrectAnswers" :numberOfQuestions="questions.length"></ActivityEnd>
         </div>
         <!-- Botones -->
         <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">

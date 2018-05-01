@@ -2,16 +2,16 @@
   <div class="end">
     <!-- Todas las respuestas son correctas -->
     <div v-if="allCorrect">
-      <h4>
+      <h4 :class="textColor">
         <i class="material-icons mens-stars">stars</i>
         ¡Enhorabuena!
       </h4>
-      <p>Todas tus respuestas son correctas</p>
+      <p :class="textColor">Todas tus respuestas son correctas</p>
     </div>
      <!-- No se han acertado todas las respuestas -->
     <div v-else>
-      <h4>¡Terminamos!</h4>
-      <p>Has acertado {{correctAnswers}} preguntas de {{numberOfQuestions}}</p>
+      <h4 :class="textColor">¡Terminamos!</h4>
+      <p :class="textColor">Has acertado {{correctAnswers}} preguntas de {{numberOfQuestions}}</p>
     </div>
   </div>
 </template>
@@ -19,7 +19,12 @@
 <script>
 export default {
   name: 'ActivityEndComponent',
-  props: ['allCorrect', 'correctAnswers', 'numberOfQuestions']
+  props: ['allCorrect', 'color', 'correctAnswers', 'numberOfQuestions'],
+  computed: {
+    textColor: function () {
+      return 'text-' + this.color
+    }
+  }
 }
 </script>
 
@@ -41,12 +46,10 @@ export default {
 .end h4 {
   font-size: 48px;
   font-family: $brand;
-  color: $primary;
 }
 
 .end p {
   font-size: 32px;
-  color: $primary;
 }
 
 </style>
