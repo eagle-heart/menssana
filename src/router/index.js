@@ -5,6 +5,10 @@ import LenguajeComponent from '@/components/lenguaje/LenguajeComponent'
 import LenguajeFacilComponent from '@/components/lenguaje/LenguajeFacilComponent'
 import LenguajeMedioComponent from '@/components/lenguaje/LenguajeMedioComponent'
 import LenguajeDificilComponent from '@/components/lenguaje/LenguajeDificilComponent'
+import CalculoComponent from '@/components/calculo/CalculoComponent'
+import CalculoFacilComponent from '@/components/calculo/CalculoFacilComponent'
+import CalculoMedioComponent from '@/components/calculo/CalculoMedioComponent'
+import CalculoDificilComponent from '@/components/calculo/CalculoDificilComponent'
 
 Vue.use(Router)
 
@@ -34,6 +38,26 @@ export default new Router({
       path: '/lenguaje/dificil',
       name: 'LenguajeDificilComponent',
       component: LenguajeDificilComponent
+    },
+    {
+      path: '/calculo',
+      name: 'CalculoComponent',
+      component: CalculoComponent
+    },
+    {
+      path: '/calculo/facil',
+      name: 'CalculoFacilComponent',
+      component: CalculoFacilComponent
+    },
+    {
+      path: '/calculo/medio',
+      name: 'CalculoMedioComponent',
+      component: CalculoMedioComponent
+    },
+    {
+      path: '/calculo/dificil',
+      name: 'CalculoDificilComponent',
+      component: CalculoDificilComponent
     }
   ]
 })

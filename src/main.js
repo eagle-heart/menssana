@@ -13,5 +13,6 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
-  store: store
+  store: store,
+  render: h => h(require("./App.vue").default)
 })

@@ -10,12 +10,21 @@ const state = {
     facil: false,
     medio: false,
     dificil: false
+  },
+  completedLevelCalculo: {
+    facil: false,
+    medio: false,
+    dificil: false
   }
+
 }
 // inicialización de mutations
 const mutations = {
   setCompletedLevelLenguaje: function (state, level) {
     state.completedLevelLenguaje[level] = true // establecemos nivel completado
+  },
+  setCompletedLevelCalculo: function (state, level) {
+    state.completedLevelCalculo[level] = true // establecemos nivel completado
   }
 }
 // creación de store con estado y mutaciones predefinidas

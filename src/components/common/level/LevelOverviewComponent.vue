@@ -3,18 +3,18 @@
     <!-- Cabecera -->
     <header>
       <router-link class="back-button" to="/" tag="div">
-        <i class="material-icons primary">arrow_back</i>
+        <i :class="[textColor, 'material-icons primary']">arrow_back</i>
       </router-link>
       <div class="title">
-        <h1>menssana</h1>
+        <h1 :class="textColor">menssana</h1>
       </div>
     </header>
     <section>
       <div class="back-link">
-        <i class="material-icons primary">keyboard_arrow_left</i>
-        <router-link to="/">Inicio</router-link>
+        <i :class="[textColor, 'material-icons primary']">keyboard_arrow_left</i>
+        <router-link :class="textColor" to="/">Inicio</router-link>
       </div>
-      <h2 :class="[color, 'module-title']">{{moduleName}}</h2>
+      <h2 :class="[textColor, 'module-title']">{{moduleTitle}}</h2>
     </section>
     <!-- Enlaces a los niveles -->
     <LevelLink :moduleName="moduleName" :textColor="textColor" :borderColor="borderColor" level="facil" levelNumber="I" levelText="Fácil"></LevelLink>
@@ -32,7 +32,7 @@ export default {
   components: {
     LevelLink
   },
-  props: ['moduleName', 'color'],
+  props: ['moduleName', 'moduleTitle', 'color'],
   data: function () {
     return {
       levelCompleted: false // TODO: sustituir por valor en store
@@ -69,11 +69,6 @@ section {
   @include column-center;
 }
 
-.primary,
-.back-link > a {
-  color: $primary;
-}
-
 .back-button > i {
   font-size: 24px;
 }
@@ -102,7 +97,6 @@ h1 {
 }
 
 h2 {
-  color: $front;
   font-size: 20px;
 }
 
