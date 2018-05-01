@@ -14,5 +14,5 @@ new Vue({
   components: { App },
   template: '<App/>',
   store: store,
-  render: h => h(require("./App.vue").default)
+  render: h => h(require('./App.vue').default)
 })

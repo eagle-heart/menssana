@@ -11,8 +11,6 @@
 </template>
 
 <script>
-// Librerías
-import _ from 'lodash'
 export default {
   name: 'ActivityHeader',
   props: ['color', 'moduleName', 'moduleTitle'],
