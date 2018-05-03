@@ -217,6 +217,7 @@ export default {
   color: $secondary;
   border: 2px solid $secondary;
   float: right;
+  border-radius: 10px;
   padding: 1%;
   margin-left: 4%;
 }
