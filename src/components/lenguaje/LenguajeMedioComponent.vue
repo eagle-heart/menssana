@@ -231,10 +231,6 @@ export default {
 .correct-answer,
 .mens-check-circle {
   font-size: 32px;
-}
-
-.correct-answer,
-.mens-check-circle {
   color: $success;
 }
 
