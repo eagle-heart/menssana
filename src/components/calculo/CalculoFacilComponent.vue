@@ -11,19 +11,19 @@
           <div class="ball"></div>
           <div class="row">
             <div class="number-container" v-for="number in rows[0]">
-              <input type="radio" class="radio" :id="'first-row-' + number" v-model="answers[0]" :value="number">
+              <input type="radio" class="radio" :id="'first-row-' + number" v-model="answers[0]" :value="number" :disabled="isSubmitDisabled">
               <label :for="'first-row-' + number"><span class="number">{{number}}</span></label>
             </div>
           </div>
           <div class="row">
             <div class="number-container" v-for="number in rows[1]">
-              <input type="radio" class="radio" :id="'second-row-' + number" v-model="answers[1]" :value="number">
+              <input type="radio" class="radio" :id="'second-row-' + number" v-model="answers[1]" :value="number" :disabled="isSubmitDisabled">
               <label :for="'second-row-' + number"><span class="number">{{number}}</span></label>
             </div>
           </div>
           <div class="row">
             <div class="number-container" v-for="number in rows[2]">
-              <input type="radio" class="radio" :id="'third-row-' + number" v-model="answers[2]" :value="number">
+              <input type="radio" class="radio" :id="'third-row-' + number" v-model="answers[2]" :value="number" :disabled="isSubmitDisabled">
               <label :for="'third-row-' + number"><span class="number">{{number}}</span></label>
             </div>
           </div>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <!-- Botones -->
-        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer">
+        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">
           <i class="material-icons mens-visibility">visibility</i>
           Comprobar
         </button>
@@ -91,6 +91,7 @@ export default {
       isAnswerEmpty: true,
       isEnded: false,
       isStarted: false,
+      isSubmitDisabled: false,
       level: 'facil',
       module: 'calculo',
       questions: []
@@ -137,10 +138,20 @@ export default {
       // Comprobamos si la respuesta está vacía
       if (!anyRowNotFilled) {
         this.isAnswerEmpty = false
+        this.isSubmitDisabled = true // Deshabilitamos la posibilidad de comprobar respuesta
         // Comprobamos si la respuesta es correcta
         if (_.isEqual(this.correctAnswers, this.answers)) {
           this.isAnswerCorrect = true
           this.isEnded = true
+          let moduleName = _.capitalize(this.module)
+          this.$store.commit('setCompletedLevel' + moduleName, this.level) // llamamos al store para establecer nivel completado
+        } else {
+          setTimeout(() => {
+          this.answers = [] // Inicializamos las respuestas como campos vacíos
+          this.isSubmitDisabled = false
+          this.isAnswerChecked = false
+          this.isAnswerEmpty = true
+        }, 3000)
         }
       }
     }
