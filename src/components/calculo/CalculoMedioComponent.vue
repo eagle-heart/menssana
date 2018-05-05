@@ -31,7 +31,7 @@
               </div>
               <div class="incorrect-answer" v-else>
                 <i class="material-icons mens-cancel">cancel</i>
-                Lo sentimos, es incorrecto
+                Lo sentimos, es incorrecto. Las respuestas correctas son {{correctAnswers[0]}} y {{correctAnswers[1]}}
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@ export default {
           this.isAnswerCorrect = false
           this.isAnswerEmpty = true
           this.isSubmitDisabled = false
-        }, 1500)
+        }, 2000)
       }
     },
     checkIfAnswerIsCorrect: function () {
