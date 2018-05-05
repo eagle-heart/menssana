@@ -48,8 +48,8 @@
           <i class="material-icons mens-visibility">visibility</i>
           Comprobar
         </button>
-        <router-link v-else to="/lenguaje" tag="div">
-          <button class="back-button">Volver a Lenguaje</button>
+        <router-link v-else to="/calculo" tag="div">
+          <button class="back-button">Volver a Cálculo</button>
         </router-link>
         <button class="start-again-button" @click="resetActivity">
           <i class="material-icons mens-cached">cached</i>
