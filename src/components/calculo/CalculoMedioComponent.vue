@@ -98,8 +98,8 @@ export default {
   computed: {
     rows: function () { // Se crea un array con las filas de la pirámide
       var values = _.split(this.questions[this.questionIndex].field_pregunta[0].value, ',')
-      const NUMBER_OF_ROWS = 3;
-      var dropNumber = 2;
+      const NUMBER_OF_ROWS = 3
+      var dropNumber = 2
       var rows = []
       for (let i = 0; i < NUMBER_OF_ROWS; i++) {
         let rowNumbers = _.take(values, dropNumber) // Se toman los n primeros valores definidos por dropNumber
@@ -123,14 +123,14 @@ export default {
   methods: {
     checkAnswer: function () {
       this.isAnswerChecked = true
-      let twoSelected =  this.answers.length == 2
+      let twoSelected = this.answers.length === 2
       // Comprobamos si la respuesta está vacía
       if (twoSelected) {
         this.isAnswerEmpty = false
         this.isSubmitDisabled = true
         // Comprobamos si la respuesta es correcta
         this.checkIfAnswerIsCorrect()
-        if(this.isAnswerCorrect) this.numberOfCorrectAnswers++
+        if (this.isAnswerCorrect) this.numberOfCorrectAnswers++
         setTimeout(() => {
           this.goToNextQuestion()
           this.isAnswerChecked = false
@@ -143,7 +143,7 @@ export default {
     checkIfAnswerIsCorrect: function () {
       var userResult = 0
       _.forEach(this.answers, function (answer) {
-        let answerValues = _.split(answer, "-") // El valor del checkbox es una cadena formada por tres números: fila-columna-valor
+        let answerValues = _.split(answer, '-') // El valor del checkbox es una cadena formada por tres números: fila-columna-valor
         userResult += _.parseInt(answerValues[2]) // Elegimos el último número (correspondiente al valor del número)
       })
       this.isAnswerCorrect = userResult === this.correctResult

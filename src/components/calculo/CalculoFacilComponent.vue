@@ -124,7 +124,7 @@ export default {
     },
     result: function () { // Se suman los números que ha seleccionado el usuario
       var result = 0
-      _.map(this.answers, _.parseInt);
+      _.map(this.answers, _.parseInt)
       _.forEach(this.answers, function (item) {
         result += _.parseInt(item)
       })
@@ -134,7 +134,7 @@ export default {
   methods: {
     checkAnswer: function () {
       this.isAnswerChecked = true
-      let anyRowNotFilled =  this.answers.length < 3 || _.includes(this.answers, undefined) || _.includes(this.answers, '')
+      let anyRowNotFilled = this.answers.length < 3 || _.includes(this.answers, undefined) || _.includes(this.answers, '')
       // Comprobamos si la respuesta está vacía
       if (!anyRowNotFilled) {
         this.isAnswerEmpty = false
@@ -147,11 +147,11 @@ export default {
           this.$store.commit('setCompletedLevel' + moduleName, this.level) // llamamos al store para establecer nivel completado
         } else {
           setTimeout(() => {
-          this.answers = [] // Inicializamos las respuestas como campos vacíos
-          this.isSubmitDisabled = false
-          this.isAnswerChecked = false
-          this.isAnswerEmpty = true
-        }, 3000)
+            this.answers = [] // Inicializamos las respuestas como campos vacíos
+            this.isSubmitDisabled = false
+            this.isAnswerChecked = false
+            this.isAnswerEmpty = true
+          }, 3000)
         }
       }
     }
