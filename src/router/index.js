@@ -9,6 +9,10 @@ import CalculoComponent from '@/components/calculo/CalculoComponent'
 import CalculoFacilComponent from '@/components/calculo/CalculoFacilComponent'
 import CalculoMedioComponent from '@/components/calculo/CalculoMedioComponent'
 import CalculoDificilComponent from '@/components/calculo/CalculoDificilComponent'
+import RazonamientoComponent from '@/components/razonamiento/RazonamientoComponent'
+import RazonamientoFacilComponent from '@/components/razonamiento/RazonamientoFacilComponent'
+import RazonamientoMedioComponent from '@/components/razonamiento/RazonamientoMedioComponent'
+import RazonamientoDificilComponent from '@/components/razonamiento/RazonamientoDificilComponent'
 
 Vue.use(Router)
 
@@ -58,6 +62,26 @@ export default new Router({
       path: '/calculo/dificil',
       name: 'CalculoDificilComponent',
       component: CalculoDificilComponent
+    },
+    {
+      path: '/razonamiento',
+      name: 'RazonamientoComponent',
+      component: RazonamientoComponent
+    },
+    {
+      path: '/razonamiento/facil',
+      name: 'RazonamientoFacilComponent',
+      component: RazonamientoFacilComponent
+    },
+    {
+      path: '/razonamiento/medio',
+      name: 'RazonamientoMedioComponent',
+      component: RazonamientoMedioComponent
+    },
+    {
+      path: '/razonamiento/dificil',
+      name: 'RazonamientoDificilComponent',
+      component: RazonamientoDificilComponent
     }
   ]
 })
