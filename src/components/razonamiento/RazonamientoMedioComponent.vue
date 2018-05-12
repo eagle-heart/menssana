@@ -215,11 +215,6 @@ export default {
   padding-bottom: 1%;
 }
 
-.number {
-  font-size: 18px;
-  color: $tertiary;
-}
-
 .word,
 .name {
   font-size: 14px;
