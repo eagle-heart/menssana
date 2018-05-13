@@ -2,7 +2,7 @@
   <div>
     <ActivityHeader color="tertiary"  moduleName="razonamiento" moduleTitle="Razonamiento"></ActivityHeader>
     <!-- Instrucciones -->
-    <Instructions v-if="!isStarted" v-on:start-activity="setStarted()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="tertiary"></Instructions>
+    <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="tertiary"></Instructions>
     <!-- Actividad comenzada -->
     <div v-else>
       <div class="orientation-vertical">
@@ -38,14 +38,14 @@
           </div>
         </div>
         <!-- Botones -->
-        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer">
+        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">
           <i class="material-icons mens-visibility">visibility</i>
           Comprobar
         </button>
         <router-link v-else to="/razonamiento" tag="div">
           <button class="back-button">Volver a Razonamiento</button>
         </router-link>
-        <button class="start-again-button" @click="resetActivity">
+        <button class="start-again-button" @click="reset">
           <i class="material-icons mens-cached">cached</i>
           Volver a empezar
         </button>
@@ -63,6 +63,9 @@ import ActivityEnd from './../common/activity/ActivityEndComponent'
 import draggable from 'vuedraggable'
 import Instructions from './../common/instructions/InstructionsComponent'
 
+// Mixins
+import activityMixins from './../../mixins/activityMixins.js'
+
 // Servicios
 import ActivityService from './../../services/ActivityService'
 const activityService = new ActivityService()
@@ -75,6 +78,7 @@ export default {
     draggable,
     Instructions
   },
+  mixins: [activityMixins],
   data: function () {
     return {
       answers: [],
@@ -82,8 +86,10 @@ export default {
       isAnswerCorrect: false,
       isEnded: false,
       isStarted: false,
+      isSubmitDisabled: false,
       level: 'facil',
       module: 'razonamiento',
+      multipleActivity: false,
       questions: []
     }
   },
@@ -99,33 +105,27 @@ export default {
     // Función para comprobar respuesta
     checkAnswer: function () {
       this.isAnswerChecked = true
+      this.isSubmitDisabled = true
       if (_.isEqual(this.answers, this.correctAnswers)) {
         this.isAnswerCorrect = true
-        this.isEnded = true
-        let moduleName = _.capitalize(this.module)
-        this.$store.commit('setCompletedLevel' + moduleName, this.level) // llamamos al store para establecer nivel completado
+        this.endActivity() // Si la respuesta es correcta, termina la actividad
       } else {
         setTimeout(() => {
           this.isAnswerChecked = false
           this.isAnswerEmpty = true
+          this.isSubmitDisabled = false
         }, 3000)
       }
     },
     setAnswersData: function () {
       this.answers = _.shuffle(this.correctAnswers) // Creamos un array con las respuestas correctas en orden aleatorio
     },
-    resetActivity: function () {
-      this.isAnswerChecked = false
-      this.isAnswerCorrect = false
-      this.isEnded = false
-      this.isStarted = false
+    reset: function () {
+      this.resetActivity()
       this.setAnswersData()
-    },
-    setStarted: function () {
-      this.isStarted = true
     }
   },
-  beforeMount () {
+  created () {
     activityService.get(this.module, this.level)
       .then(response => {
         this.questions = response.data

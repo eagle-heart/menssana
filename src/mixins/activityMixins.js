@@ -8,29 +8,49 @@ var activityMixins = {
   methods: {
     // Función para comenzar la actividad
     startActivity: function () {
-      // Llamamos a la función de activityService encargada de recuperar los datos
-      activityService.get(this.module, this.level)
-        .then(response => {
-          this.questions = response.data
-        })
-        .catch(e => {
-          console.log(e)
-        })
       this.isStarted = true
     },
     // Función para terminar la actividad
     endActivity: function () {
       this.isEnded = true
-      if (this.numberOfCorrectAnswers === this.questions.length) {
-        this.areAllAnswersCorrect = true
-        let moduleName = _.capitalize(this.module)
-        this.$store.commit('setCompletedLevel' + moduleName, this.level) // llamamos al store para establecer nivel completado
+      if (this.multipleActivity) {
+        // Si la actividad tiene varios ejercicios, comprobamos si todas las respuestas son correctas
+        if (this.numberOfCorrectAnswers === this.questions.length) {
+          this.areAllAnswersCorrect = true
+          this.completeActivity() // Completamos el nivel
+        }
+      } else {
+        this.completeActivity() // Completamos el nivel
       }
+    },
+    // Función para completar la actividad
+    completeActivity: function () {
+      let moduleName = _.capitalize(this.module)
+      this.$store.commit('setCompletedLevel' + moduleName, this.level) // llamamos al store para establecer nivel completado
+    },
+    // Función para recuperar los datos
+    getActivityData: function () {
+      activityService.get(this.module, this.level)
+      .then((response) => {
+        this.questions = response.data
+      })
+      .catch((e) => {
+        console.log(e)
+      })
     },
     // Función para resetear la actividad
     resetActivity: function () {
+      this.isAnswerChecked = false
+      this.isAnswerCorrect = false
+      this.isEnded = false
       this.isStarted = false
-      Object.assign(this.$data, this.$options.data()) // Reinicializamos las propiedades del componente con sus valores iniciales
+      this.isSubmitDisabled = false
+      // Si la actividad tiene varios ejercicios, reiniciamos las variables relacionadas con el número de preguntas
+      if (this.multipleActivity) {
+        this.areAllAnswersCorrect = false
+        this.numberOfCorrectAnswers  = 0
+        this.questionIndex = 0
+      }
     }
   }
 }

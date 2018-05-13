@@ -94,6 +94,7 @@ export default {
       isSubmitDisabled: false,
       level: 'dificil',
       module: 'calculo',
+      multipleActivity: true,
       numberOfCorrectAnswers: 0,
       questions: []
     }
@@ -139,6 +140,9 @@ export default {
         this.activityIndex++
       }
     }
+  },
+  created () {
+    this.getActivityData()
   }
 }
 </script>

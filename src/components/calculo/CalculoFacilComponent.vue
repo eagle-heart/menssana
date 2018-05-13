@@ -94,6 +94,7 @@ export default {
       isSubmitDisabled: false,
       level: 'facil',
       module: 'calculo',
+      multipleActivity: false,
       questions: []
     }
   },
@@ -142,9 +143,7 @@ export default {
         // Comprobamos si la respuesta es correcta
         if (_.isEqual(this.correctAnswers, this.answers)) {
           this.isAnswerCorrect = true
-          this.isEnded = true
-          let moduleName = _.capitalize(this.module)
-          this.$store.commit('setCompletedLevel' + moduleName, this.level) // llamamos al store para establecer nivel completado
+          this.endActivity() // Si la respuesta es correcta, termina la actividad
         } else {
           setTimeout(() => {
             this.answers = [] // Inicializamos las respuestas como campos vacíos
@@ -155,6 +154,9 @@ export default {
         }
       }
     }
+  },
+  created () {
+    this.getActivityData()
   }
 }
 </script>

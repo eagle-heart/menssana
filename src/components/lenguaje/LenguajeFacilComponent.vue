@@ -83,6 +83,7 @@ export default {
       isSubmitDisabled: false,
       level: 'facil',
       module: 'lenguaje',
+      multipleActivity: true,
       numberOfCorrectAnswers: 0,
       questionIndex: 0,
       questions: []
@@ -132,6 +133,9 @@ export default {
         this.questionIndex++ // Si no es la última pregunta, pasamos a la siguiente
       }
     }
+  },
+  created () {
+    this.getActivityData()
   }
 }
 </script>

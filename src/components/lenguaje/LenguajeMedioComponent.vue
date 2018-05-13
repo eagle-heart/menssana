@@ -92,6 +92,7 @@ export default {
       isSubmitDisabled: false,
       level: 'medio',
       module: 'lenguaje',
+      multipleActivity: true,
       numberOfCorrectAnswers: 0,
       questions: []
     }
@@ -165,7 +166,9 @@ export default {
         word.classList.add('crossed')
       }
     }
-
+  },
+  created () {
+    this.getActivityData()
   }
 }
 </script>

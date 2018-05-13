@@ -259,7 +259,6 @@ export default {
 }
 
 // Botones
-
 .mens-visibility,
 .mens-cached {
   vertical-align: middle;

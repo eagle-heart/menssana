@@ -1,7 +1,8 @@
 <template>
   <div>
     <h2 :class="textColor">Nivel {{levelNumber}} - {{levelName}}</h2>
-    <div :class="['instructions-container', borderColor]" v-if="instructionsData.length">
+    <div v-if="loading" :class="['loading', borderColor]"></div>
+    <div v-else :class="['instructions-container', borderColor]">
       <p>{{instructionsText}}</p>
       <h3>Ejemplo</h3>
       <button :class="['start', backgroundColor, borderColor]" v-on:click="$emit('start-activity')">Comenzar</button>
@@ -21,7 +22,8 @@ export default {
   props: ['module', 'level', 'levelName', 'levelNumber', 'color'],
   data: function () {
     return {
-      instructionsData: []
+      instructionsData: [],
+      loading: true
     }
   },
   computed: {
@@ -42,6 +44,7 @@ export default {
     instructionsService.get(this.module, this.level)
       .then(response => {
         this.instructionsData = response.data
+        this.loading = false
       })
       .catch(e => {
         console.log(e)
@@ -61,6 +64,57 @@ h2 {
   font-family: $brand;
   font-size: 28px;
   padding: 4% 0;
+}
+
+.loading {
+  height: 60px;
+  width: 60px;
+  margin: 94px auto 0 auto;
+  position: relative;
+  -webkit-animation: rotation .6s infinite linear;
+  -moz-animation: rotation .6s infinite linear;
+  -o-animation: rotation .6s infinite linear;
+  animation: rotation .6s infinite linear;
+  border-width: 6px;
+  border-style: solid;
+  border-top-color: $background;
+  border-radius: 100%;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@-moz-keyframes rotation {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(359deg);
+  }
+}
+
+@-o-keyframes rotation {
+  from {
+    -o-transform: rotate(0deg);
+  }
+  to {
+    -o-transform: rotate(359deg);
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
 
 .instructions-container,
