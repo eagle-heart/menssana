@@ -20,9 +20,9 @@
               {{index + 1}}
             </div>
             <draggable v-model="answers" @start="drag=true" @end="drag=false">
-                <div class="cell" v-for="word in answers">
-                  <div class="word">{{word}}</div>
-                </div>
+              <div class="cell" v-for="word in answers">
+                <div class="word">{{word}}</div>
+              </div>
             </draggable>
           </div>
           <!-- Bloque de comprobación de respuestas -->

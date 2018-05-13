@@ -18,7 +18,6 @@
           <div class="answer">
             <!-- Categorías nombre, prenda, color y material -->
             <div class="column-title" v-for="category in categories">{{category}}</div>
-            </div>
             <div class="column" v-for="(category, index) in answers">
               <!-- Los nombres son celdas fijas (no se pueden arrastrar) -->
               <div v-if="index === 0">
@@ -28,9 +27,9 @@
               </div>
               <!-- Las categorías prenda, color y material se pueden arrastrar y ordenar -->
               <draggable v-else v-model="answers[index]" @start="drag=true" @end="drag=false">
-                  <div class="cell" v-for="word in category">
-                    <div class="word">{{word}}</div>
-                  </div>
+                <div class="cell" v-for="word in category">
+                  <div class="word">{{word}}</div>
+                </div>
               </draggable>
             </div>
           </div>
