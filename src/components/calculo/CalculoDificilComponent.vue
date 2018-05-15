@@ -1,12 +1,13 @@
 <template>
   <div>
-    <ActivityHeader color="secondary"  moduleName="calculo" moduleTitle="Cálculo"></ActivityHeader>
+    <ActivityHeader color="secondary" moduleLevel="Difícil" moduleName="calculo" moduleTitle="Cálculo"></ActivityHeader>
     <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Difícil" levelNumber="III" color="secondary"></Instructions>
     <!-- Actividad comenzada -->
     <div v-else>
       <div v-if="questions.length">
         <div v-if="!isEnded">
+          <ProgressBar color="secondary" levelName="Difícil" :numberOfQuestions="questions.length" :questionIndex="questionIndex"></ProgressBar>
           <!-- Bloque de preguntas y respuestas -->
           <div class="question">
             <div class="operation">
@@ -57,7 +58,6 @@
         </button>
       </div>
     </div>
-    <Disclaimer></Disclaimer>
   </div>
 </template>
 
@@ -67,8 +67,8 @@ import _ from 'lodash'
 // Componentes
 import ActivityHeader from './../common/activity/ActivityHeaderComponent'
 import ActivityEnd from './../common/activity/ActivityEndComponent'
-import Disclaimer from './../common/DisclaimerComponent'
 import Instructions from './../common/instructions/InstructionsComponent'
+import ProgressBar from './../common/activity/ProgressBarComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
 
@@ -77,13 +77,12 @@ export default {
   components: {
     ActivityHeader,
     ActivityEnd,
-    Disclaimer,
-    Instructions
+    Instructions,
+    ProgressBar
   },
   mixins: [activityMixins],
   data: function () {
     return {
-      activityIndex: 0,
       answers: [],
       areAllAnswersCorrect: false,
       isAnswerChecked: false,
@@ -96,15 +95,16 @@ export default {
       module: 'calculo',
       multipleActivity: true,
       numberOfCorrectAnswers: 0,
+      questionIndex: 0,
       questions: []
     }
   },
   computed: {
     question: function () {
-      return _.split(this.questions[this.activityIndex].field_pregunta[0].value, ',') // Creamos un array dividiendo la pregunta en cuatro partes (los tres números de la operación y el resultado)
+      return _.split(this.questions[this.questionIndex].field_pregunta[0].value, ',') // Creamos un array dividiendo la pregunta en cuatro partes (los tres números de la operación y el resultado)
     },
     correctAnswers: function () {
-      return _.split(this.questions[this.activityIndex].field_respuesta[0].value, ',') // Creamos un array con las dos respuestas correctas
+      return _.split(this.questions[this.questionIndex].field_respuesta[0].value, ',') // Creamos un array con las dos respuestas correctas
     }
   },
   methods: {
@@ -134,10 +134,10 @@ export default {
     // Función para pasar a la siguiente pregunta
     goToNextQuestion: function () {
       this.answers = [] // Inicializamos las respuestas como campos vacíos
-      if (this.activityIndex === this.questions.length - 1) {
+      if (this.questionIndex === this.questions.length - 1) {
         this.endActivity()
       } else {
-        this.activityIndex++
+        this.questionIndex++
       }
     }
   },

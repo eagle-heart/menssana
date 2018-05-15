@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ActivityHeader color="tertiary"  moduleName="razonamiento" moduleTitle="Razonamiento"></ActivityHeader>
+    <ActivityHeader color="tertiary" moduleLevel="Fácil"  moduleName="razonamiento" moduleTitle="Razonamiento"></ActivityHeader>
     <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="tertiary"></Instructions>
     <!-- Actividad comenzada -->
@@ -12,6 +12,7 @@
         </div>
       </div>
       <div class="orientation-horizontal" v-if="questions.length">
+        <ProgressBar color="tertiary" levelName="Fácil" :numberOfQuestions="questions.length" :questionIndex="questionIndex"></ProgressBar>
         <div>
           <!-- Bloque de preguntas y respuestas -->
           <p class="question">{{question}}</p>
@@ -62,7 +63,7 @@ import ActivityHeader from './../common/activity/ActivityHeaderComponent'
 import ActivityEnd from './../common/activity/ActivityEndComponent'
 import draggable from 'vuedraggable'
 import Instructions from './../common/instructions/InstructionsComponent'
-
+import ProgressBar from './../common/activity/ProgressBarComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
 
@@ -76,7 +77,8 @@ export default {
     ActivityHeader,
     ActivityEnd,
     draggable,
-    Instructions
+    Instructions,
+    ProgressBar
   },
   mixins: [activityMixins],
   data: function () {
@@ -90,6 +92,7 @@ export default {
       level: 'facil',
       module: 'razonamiento',
       multipleActivity: false,
+      questionIndex: 0,
       questions: []
     }
   },

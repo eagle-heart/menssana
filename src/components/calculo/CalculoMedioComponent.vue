@@ -1,12 +1,13 @@
 <template>
   <div>
-    <ActivityHeader color="secondary" moduleName="calculo" moduleTitle="Cálculo"></ActivityHeader>
+    <ActivityHeader color="secondary" moduleLevel="Medio" moduleName="calculo" moduleTitle="Cálculo"></ActivityHeader>
     <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Medio" levelNumber="II" color="secondary"></Instructions>
     <!-- Actividad comenzada -->
     <div v-else>
       <div v-if="questions.length">
         <div v-if="!isEnded">
+          <ProgressBar color="secondary" levelName="Medio" :numberOfQuestions="questions.length" :questionIndex="questionIndex"></ProgressBar>
           <!-- Pirámide de latas -->
           <div class="pyramid-container">
             <div>
@@ -54,7 +55,6 @@
         </button>
       </div>
     </div>
-    <Disclaimer></Disclaimer>
   </div>
 </template>
 
@@ -64,8 +64,8 @@ import _ from 'lodash'
 // Componentes
 import ActivityHeader from './../common/activity/ActivityHeaderComponent'
 import ActivityEnd from './../common/activity/ActivityEndComponent'
-import Disclaimer from './../common/DisclaimerComponent'
 import Instructions from './../common/instructions/InstructionsComponent'
+import ProgressBar from './../common/activity/ProgressBarComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
 
@@ -74,8 +74,8 @@ export default {
   components: {
     ActivityHeader,
     ActivityEnd,
-    Disclaimer,
-    Instructions
+    Instructions,
+    ProgressBar
   },
   mixins: [activityMixins],
   data: function () {

@@ -1,12 +1,13 @@
 <template>
   <div>
-    <ActivityHeader color="tertiary" moduleName="razonamiento" moduleTitle="Razonamiento"></ActivityHeader>
+    <ActivityHeader color="tertiary" moduleLevel="Difícil" moduleName="razonamiento" moduleTitle="Razonamiento"></ActivityHeader>
     <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Difícil" levelNumber="III" color="tertiary"></Instructions>
     <!-- Actividad comenzada -->
     <div v-else>
       <div v-if="questions.length">
         <div v-if="!isEnded" class="block">
+          <ProgressBar color="tertiary" levelName="Difícil" :numberOfQuestions="questions.length" :questionIndex="questionIndex"></ProgressBar>
           <!-- Bloque de preguntas y respuestas -->
           <div class="question">{{ question }}</div>
           <!-- Preguntas de seleccionar una respuesta -->
@@ -75,6 +76,7 @@ import _ from 'lodash'
 import ActivityHeader from './../common/activity/ActivityHeaderComponent'
 import ActivityEnd from './../common/activity/ActivityEndComponent'
 import Instructions from './../common/instructions/InstructionsComponent'
+import ProgressBar from './../common/activity/ProgressBarComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
 
@@ -83,7 +85,8 @@ export default {
   components: {
     ActivityHeader,
     ActivityEnd,
-    Instructions
+    Instructions,
+    ProgressBar
   },
   mixins: [activityMixins],
   data: function () {

@@ -1,12 +1,13 @@
 <template>
   <div>
-    <ActivityHeader color="primary"  moduleName="lenguaje" moduleTitle="Lenguaje"></ActivityHeader>
+    <ActivityHeader color="primary" moduleLevel="Fácil" moduleName="lenguaje" moduleTitle="Lenguaje"></ActivityHeader>
     <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="primary"></Instructions>
     <!-- Actividad comenzada -->
     <div v-else>
       <div v-if="questions.length">
         <div v-if="!isEnded">
+          <ProgressBar color="primary" levelName="Fácil" :numberOfQuestions="questions.length" :questionIndex="questionIndex"></ProgressBar>
           <!-- Bloque de preguntas y respuestas -->
           <div class="question">{{ question }}</div>
           <div>
@@ -47,7 +48,6 @@
         </button>
       </div>
     </div>
-    <Disclaimer></Disclaimer>
   </div>
 </template>
 
@@ -57,8 +57,8 @@ import _ from 'lodash'
 // Componentes
 import ActivityHeader from './../common/activity/ActivityHeaderComponent'
 import ActivityEnd from './../common/activity/ActivityEndComponent'
-import Disclaimer from './../common/DisclaimerComponent'
 import Instructions from './../common/instructions/InstructionsComponent'
+import ProgressBar from './../common/activity/ProgressBarComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
 
@@ -67,8 +67,8 @@ export default {
   components: {
     ActivityHeader,
     ActivityEnd,
-    Disclaimer,
-    Instructions
+    Instructions,
+    ProgressBar
   },
   mixins: [activityMixins],
   data: function () {

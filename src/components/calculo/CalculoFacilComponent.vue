@@ -1,11 +1,12 @@
 <template>
   <div>
-    <ActivityHeader color="secondary" moduleName="calculo" moduleTitle="Cálculo"></ActivityHeader>
+    <ActivityHeader color="secondary" moduleLevel="Fácil" moduleName="calculo" moduleTitle="Cálculo"></ActivityHeader>
     <!-- Instrucciones -->
     <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="secondary"></Instructions>
     <!-- Actividad comenzada -->
     <div v-else>
       <div v-if="questions.length">
+        <ProgressBar color="secondary" levelName="Fácil" :numberOfQuestions="1" :questionIndex="questionIndex"></ProgressBar>
         <div>
           <!-- Futbolín -->
           <div class="ball"></div>
@@ -59,7 +60,6 @@
         </button>
       </div>
     </div>
-    <Disclaimer></Disclaimer>
   </div>
 </template>
 
@@ -69,8 +69,8 @@ import _ from 'lodash'
 // Componentes
 import ActivityHeader from './../common/activity/ActivityHeaderComponent'
 import ActivityEnd from './../common/activity/ActivityEndComponent'
-import Disclaimer from './../common/DisclaimerComponent'
 import Instructions from './../common/instructions/InstructionsComponent'
+import ProgressBar from './../common/activity/ProgressBarComponent'
 // Mixins
 import activityMixins from './../../mixins/activityMixins.js'
 
@@ -79,8 +79,8 @@ export default {
   components: {
     ActivityHeader,
     ActivityEnd,
-    Disclaimer,
-    Instructions
+    Instructions,
+    ProgressBar
   },
   mixins: [activityMixins],
   data: function () {
@@ -95,6 +95,7 @@ export default {
       level: 'facil',
       module: 'calculo',
       multipleActivity: false,
+      questionIndex: 0,
       questions: []
     }
   },
