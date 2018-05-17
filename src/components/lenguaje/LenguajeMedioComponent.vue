@@ -50,7 +50,7 @@
         <router-link v-else to="/lenguaje" tag="div">
           <button class="back-button">Volver a Lenguaje</button>
         </router-link>
-        <button class="start-again-button" @click="resetActivity">
+        <button class="start-again-button" @click="resetActivity" :disabled="isSubmitDisabled">
           <i class="material-icons mens-cached">cached</i>
           Volver a empezar
         </button>

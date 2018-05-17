@@ -81,10 +81,13 @@ progress {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 479px) {
   .progress-container {
     margin: 4% 0;
   }
+}
+
+@media (min-width: 768px) {
   .short-question-text {
     display: none;
   }

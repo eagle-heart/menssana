@@ -46,7 +46,7 @@
         <router-link v-else to="/razonamiento" tag="div">
           <button class="back-button">Volver a Razonamiento</button>
         </router-link>
-        <button class="start-again-button" @click="reset">
+        <button class="start-again-button" @click="reset" :disabled="isSubmitDisabled && !isEnded">
           <i class="material-icons mens-cached">cached</i>
           Volver a empezar
         </button>
@@ -210,7 +210,7 @@ export default {
 }
 
 .question {
-  padding: 4% 0;
+  padding-bottom: 4%;
 }
 
 .correct-answer,

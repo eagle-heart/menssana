@@ -47,14 +47,14 @@
           </div>
         </div>
         <!-- Botones -->
-        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer">
+        <button v-if="!isEnded" class="check-answer-button" @click="checkAnswer" :disabled="isSubmitDisabled">
           <i class="material-icons mens-visibility">visibility</i>
           Comprobar
         </button>
         <router-link v-else to="/razonamiento" tag="div">
           <button class="back-button">Volver a Razonamiento</button>
         </router-link>
-        <button class="start-again-button" @click="reset">
+        <button class="start-again-button" @click="reset" :disabled="isSubmitDisabled && !isEnded">
           <i class="material-icons mens-cached">cached</i>
           Volver a empezar
         </button>
@@ -92,11 +92,12 @@ export default {
   data: function () {
     return {
       answers: [],
-      categories: ["Nombre", "Prenda", "Color", "Material"],
+      categories: ['Nombre', 'Prenda', 'Color', 'Material'],
       isAnswerChecked: false,
       isAnswerCorrect: false,
       isEnded: false,
       isStarted: false,
+      isSubmitDisabled: false,
       level: 'medio',
       module: 'razonamiento',
       multipleActivity: false,
@@ -109,7 +110,7 @@ export default {
       let correctAnswers = []
       let categories = _.split(this.questions[0].field_respuesta[0].value, '*')
       _.forEach(categories, function (item) {
-        correctAnswers.push(_.split(item, ','))  // Creamos un array con otros cuatro arrays que incluyen las respuestas correctas para cada categoría
+        correctAnswers.push(_.split(item, ',')) // Creamos un array con otros cuatro arrays que incluyen las respuestas correctas para cada categoría
       })
       return correctAnswers
     },
@@ -121,6 +122,7 @@ export default {
     // Función para comprobar respuesta
     checkAnswer: function () {
       this.isAnswerChecked = true
+      this.isSubmitDisabled = true
       if (_.isEqual(this.answers, this.correctAnswers)) {
         this.isAnswerCorrect = true
         this.endActivity() // Si la respuesta es correcta, termina la actividad
@@ -128,6 +130,7 @@ export default {
         setTimeout(() => {
           this.isAnswerChecked = false
           this.isAnswerEmpty = true
+          this.isSubmitDisabled = false
         }, 2000)
       }
     },

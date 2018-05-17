@@ -54,7 +54,7 @@
         <router-link v-else to="/calculo" tag="div">
           <button class="back-button">Volver a Cálculo</button>
         </router-link>
-        <button class="start-again-button" @click="resetActivity">
+        <button class="start-again-button" @click="resetActivity" :disabled="isSubmitDisabled && !isEnded">
           <i class="material-icons mens-cached">cached</i>
           Volver a empezar
         </button>

@@ -5,6 +5,7 @@
     <div v-else :class="['instructions-container', borderColor]">
       <p>{{instructionsText}}</p>
       <h3>Ejemplo</h3>
+      <img :src="imageUrl" :alt="imageAlt">
       <button :class="['start', backgroundColor, borderColor]" v-on:click="$emit('start-activity')">Comenzar</button>
       <div class="clearfix"></div>
     </div>
@@ -38,6 +39,12 @@ export default {
     },
     textColor: function () {
       return 'text-' + this.color
+    },
+    imageUrl: function () {
+      return this.instructionsData[0].field_ejemplo[0].url
+    },
+    imageAlt: function () {
+      return this.instructionsData[0].field_ejemplo[0].alt
     }
   },
   created () {
@@ -79,6 +86,12 @@ h2 {
   border-style: solid;
   border-top-color: $background;
   border-radius: 100%;
+}
+
+img {
+  width: 100%;
+  display: block;
+  margin-bottom: 4%;
 }
 
 @-webkit-keyframes rotation {
@@ -146,6 +159,10 @@ h2 {
     float: right;
     clear: both;
     padding: 1% 4%;
+  }
+  img {
+    width: 50%;
+    margin: 0 auto 4% auto;
   }
 }
 </style>

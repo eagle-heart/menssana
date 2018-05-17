@@ -43,7 +43,7 @@
               </div>
               <div class="incorrect-answer" v-else>
                 <i class="material-icons mens-cancel">cancel</i>
-                Lo sentimos, es incorrecto. Respuesta correcta: {{correctAnswers}}
+                Lo sentimos, es incorrecto. Respuesta correcta: {{correctAnswers[0]}}
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@
         <router-link v-else to="/razonamiento" tag="div">
           <button class="back-button">Volver a Razonamiento</button>
         </router-link>
-        <button class="start-again-button" @click="resetActivity">
+        <button class="start-again-button" @click="resetActivity" :disabled="isSubmitDisabled">
           <i class="material-icons mens-cached">cached</i>
           Volver a empezar
         </button>
@@ -109,7 +109,12 @@ export default {
   },
   computed: {
     correctAnswers: function () {
-      return this.questions[this.questionIndex].field_respuesta[0].value // Respuesta correcta
+      if (this.questionIndex === this.questions.length - 1) {
+        let rawAnswer = this.questions[this.questionIndex].field_respuesta[0].value // Respuesta correcta
+        return [rawAnswer, _.capitalize(rawAnswer), _.lowerCase(rawAnswer)]
+      } else {
+        return [this.questions[this.questionIndex].field_respuesta[0].value] // Respuesta correcta
+      }
     },
     question: function () {
       return _.head(_.split(this.questions[this.questionIndex].field_pregunta[0].value, '*')) // Creamos un array y retornamos el primer elemento, que será la pregunta
@@ -127,7 +132,7 @@ export default {
         this.isAnswerEmpty = false
         this.isSubmitDisabled = true // Deshabilitamos la posibilidad de comprobar respuesta
         // Comprobamos si la respuesta es correcta
-        if (_.isEqual(this.correctAnswers, this.answer)) {
+        if (_.includes(this.correctAnswers, this.answer)) {
           this.isAnswerCorrect = true
           this.numberOfCorrectAnswers++
         }

@@ -31,12 +31,12 @@ var activityMixins = {
     // Función para recuperar los datos
     getActivityData: function () {
       activityService.get(this.module, this.level)
-      .then((response) => {
-        this.questions = response.data
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        .then((response) => {
+          this.questions = response.data
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     },
     // Función para resetear la actividad
     resetActivity: function () {
@@ -45,10 +45,13 @@ var activityMixins = {
       this.isEnded = false
       this.isStarted = false
       this.isSubmitDisabled = false
+      if (this.isAnswerEmpty) this.isAnswerEmpty = true
+      if (this.answer) this.answer = ''
+      if (this.answers) this.answers = []
       // Si la actividad tiene varios ejercicios, reiniciamos las variables relacionadas con el número de preguntas
       if (this.multipleActivity) {
         this.areAllAnswersCorrect = false
-        this.numberOfCorrectAnswers  = 0
+        this.numberOfCorrectAnswers = 0
         this.questionIndex = 0
       }
     }
