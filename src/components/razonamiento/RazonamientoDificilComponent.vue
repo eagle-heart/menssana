@@ -339,6 +339,11 @@ export default {
   margin-bottom: 3%;
 }
 
+.start-again-button:disabled,
+.check-answer-button:disabled {
+  opacity: 0.7;
+}
+
 @media (min-width: 768px) {
   // Bloque de preguntas y respuestas
   .answer-container {

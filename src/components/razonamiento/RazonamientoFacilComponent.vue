@@ -117,7 +117,7 @@ export default {
           this.isAnswerChecked = false
           this.isAnswerEmpty = true
           this.isSubmitDisabled = false
-        }, 3000)
+        }, 2000)
       }
     },
     setAnswersData: function () {
@@ -213,6 +213,8 @@ export default {
   padding-bottom: 4%;
 }
 
+// Bloque de comprobación de respuestas
+
 .correct-answer,
 .mens-check-circle {
   font-size: 32px;
@@ -260,6 +262,11 @@ export default {
   color: $background;
   float: right;
   margin-bottom: 6%;
+}
+
+.start-again-button:disabled,
+.check-answer-button:disabled {
+  opacity: 0.7;
 }
 
 @media (min-width: 768px) {

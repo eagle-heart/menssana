@@ -2,8 +2,8 @@
   <header>
     <!-- Menú hamburguesa (pantallas pequeñas) -->
     <!-- Botón -->
-    <div class="menu-column">
-      <i :class="[textColor, 'material-icons', 'mens-hamburger']" @click="toggleMenu()">menu</i>
+    <div class="menu-column" @click="toggleMenu()">
+      <i :class="[textColor, 'material-icons', 'mens-hamburger']">menu</i>
       <div :class="textColor">Menú</div>
     </div>
     <!-- Menú deslizable -->
@@ -11,14 +11,14 @@
       <div class="menu-bar">
         <i class="material-icons" @click="toggleMenu()">close</i>
       </div>
-      <div class="menu-bar">
+      <router-link :to="backRoute" class="menu-bar" tag="div">
         <i class="material-icons">keyboard_arrow_left</i>
-        <router-link :to="backRoute">Volver a {{moduleTitle}}</router-link>
-      </div>
-      <div class="menu-bar">
+        <span class="menu-bar-text">Volver a {{moduleTitle}}</span>
+      </router-link>
+      <router-link to="/" class="menu-bar" tag="div">
         <i class="material-icons">home</i>
-        <router-link to="/">Volver a Inicio</router-link>
-      </div>
+        <span class="menu-bar-text">Volver a Inicio</span>
+      </router-link>
     </div>
     <!-- Menú migas de pan (pantallas grandes) -->
     <div class="breadcrumb">
@@ -91,6 +91,7 @@ header {
   font-family: $brand;
   font-size: 32px;
   margin: 0;
+  cursor: pointer;
 }
 
 // Menú hamburguesa
@@ -135,9 +136,7 @@ header {
   align-items: center;
 }
 
-.menu-bar > a {
-  color: $background;
-  text-decoration: none;
+.menu-bar-text {
   padding-left: 6%;
 }
 

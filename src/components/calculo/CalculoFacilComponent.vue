@@ -151,7 +151,7 @@ export default {
             this.isSubmitDisabled = false
             this.isAnswerChecked = false
             this.isAnswerEmpty = true
-          }, 3000)
+          }, 2000)
         }
       }
     }
@@ -264,6 +264,7 @@ export default {
 }
 
 // Botones
+
 .mens-visibility,
 .mens-cached {
   vertical-align: middle;
@@ -293,6 +294,11 @@ export default {
   margin-bottom: 3%;
 }
 
+.start-again-button:disabled,
+.check-answer-button:disabled {
+  opacity: 0.7;
+}
+
 @media (min-width: 768px) {
   .row {
     width: 45%;
@@ -308,8 +314,7 @@ export default {
     visibility: hidden;
   }
   .incorrect-answer,
-  .mens-cancel,
-  .empty-answer {
+  .mens-cancel {
     font-size: 28px;
   }
 

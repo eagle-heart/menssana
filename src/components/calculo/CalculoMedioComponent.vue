@@ -292,10 +292,15 @@ export default {
   margin-bottom: 3%;
 }
 
+.start-again-button:disabled,
+.check-answer-button:disabled {
+  opacity: 0.7;
+}
+
 @media (min-width: 768px) {
   .pyramid-container {
     width: 60%;
-    margin: 0 auto;
+    margin: 0 auto 6% auto;
   }
 
   // Bloque de comprobación de respuestas
@@ -308,8 +313,7 @@ export default {
     visibility: hidden;
   }
   .incorrect-answer,
-  .mens-cancel,
-  .empty-answer {
+  .mens-cancel {
     font-size: 28px;
   }
 
