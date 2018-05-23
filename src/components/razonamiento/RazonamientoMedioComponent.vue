@@ -2,9 +2,9 @@
   <div>
     <ActivityHeader color="tertiary" moduleLevel="Medio" moduleName="razonamiento" moduleTitle="Razonamiento"></ActivityHeader>
     <!-- Instrucciones -->
-    <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Medio" levelNumber="II" color="tertiary"></Instructions>
+    <Instructions v-show="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Medio" levelNumber="II" color="tertiary"></Instructions>
     <!-- Actividad comenzada -->
-    <div v-else>
+    <div v-show="isStarted">
       <div class="orientation-vertical">
         Para visualizar correctamente esta actividad, coloca tu dispositivo en orientación horizontal
         <div>

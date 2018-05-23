@@ -2,9 +2,9 @@
   <div>
     <ActivityHeader color="secondary" moduleLevel="Fácil" moduleName="calculo" moduleTitle="Cálculo"></ActivityHeader>
     <!-- Instrucciones -->
-    <Instructions v-if="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="secondary"></Instructions>
+    <Instructions v-show="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="secondary"></Instructions>
     <!-- Actividad comenzada -->
-    <div v-else>
+    <div v-show="isStarted">
       <div v-if="questions.length">
         <ProgressBar color="secondary" levelName="Fácil" :numberOfQuestions="1" :questionIndex="questionIndex"></ProgressBar>
         <div>
