@@ -21,7 +21,7 @@ html {
 
 #app {
   width: 95%;
-  margin: 0 auto 4% auto;
+  margin: 0 auto 12% auto;
   color: $front;
   font-family: $text;
   -webkit-font-smoothing: antialiased;
