@@ -4,7 +4,7 @@
     <!-- Instrucciones -->
     <Instructions v-show="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Difícil" levelNumber="III" color="tertiary"></Instructions>
     <!-- Actividad comenzada -->
-    <div v-show="isStarted">
+    <div v-if="isStarted">
       <div v-if="questions.length">
         <div v-if="!isEnded" class="block">
           <ProgressBar color="tertiary" levelName="Difícil" :numberOfQuestions="questions.length" :questionIndex="questionIndex"></ProgressBar>

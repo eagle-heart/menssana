@@ -4,7 +4,7 @@
     <!-- Instrucciones -->
     <Instructions v-show="!isStarted" v-on:start-activity="startActivity()" :module="module" :level="level" levelName="Fácil" levelNumber="I" color="tertiary"></Instructions>
     <!-- Actividad comenzada -->
-    <div v-show="isStarted">
+    <div v-if="isStarted">
       <div class="orientation-vertical">
         Para visualizar correctamente esta actividad, coloca tu dispositivo en orientación horizontal
         <div>
@@ -206,7 +206,7 @@ export default {
 }
 
 .answer {
-  height: 50px;
+  height: 75px;
 }
 
 .question {
@@ -278,12 +278,13 @@ export default {
 
 @media (min-width: 1024px) {
   .visible {
-    @include column-container(150px);
+    @include column-container(75px);
   }
   .invisible {
     display: block;
-    height: 150px;
+    height: 75px;
     visibility: hidden;
+    clear: both;
   }
   // Botones
   .back-button,
