@@ -138,6 +138,7 @@ header {
 
 .menu-bar-text {
   padding-left: 6%;
+  width: 100%;
 }
 
 // Menú migas de pan
