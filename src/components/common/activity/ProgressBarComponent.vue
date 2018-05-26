@@ -1,6 +1,8 @@
 <template>
   <div class="progress-container">
+    <!-- Indicador de nivel (sólo pantallas pequeñas) -->
     <div :class="[textColor, 'level']">{{levelName}}</div>
+    <!-- Barra de progreso -->
     <div class="progress-description">
       <span :class="[textColor, 'full-question-text']">Pregunta {{questionIndex + 1}} de {{numberOfQuestions}}</span>
       <span :class="[textColor, 'short-question-text']">{{questionIndex + 1}} / {{numberOfQuestions}}</span>

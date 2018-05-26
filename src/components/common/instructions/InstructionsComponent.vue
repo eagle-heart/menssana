@@ -1,11 +1,13 @@
 <template>
   <div>
     <h2 :class="textColor">Nivel {{levelNumber}} - {{levelName}}</h2>
+    <!-- Spinner (sólo se muestra cuando la actividad está cargando) -->
     <div v-if="loading" :class="['loading', borderColor]"></div>
+    <!-- Instrucciones -->
     <div v-else :class="['instructions-container', borderColor]">
       <p>{{instructionsText}}</p>
       <h3>Ejemplo</h3>
-      <img :src="imageUrl" :alt="imageAlt">
+      <img class="example" :src="imageUrl" :alt="imageAlt">
       <button :class="['start', backgroundColor, borderColor]" v-on:click="$emit('start-activity')">Comenzar</button>
       <div class="clearfix"></div>
     </div>
@@ -88,7 +90,7 @@ h2 {
   border-radius: 100%;
 }
 
-img {
+.example {
   width: 100%;
   display: block;
   margin-bottom: 4%;
@@ -138,8 +140,6 @@ img {
 }
 
 .instructions-container {
-  border-style: solid;
-  border-radius: 10px;
   padding: 3%;
 }
 
@@ -160,7 +160,7 @@ img {
     clear: both;
     padding: 1% 4%;
   }
-  img {
+  .example {
     width: 50%;
     margin: 0 auto 4% auto;
   }
