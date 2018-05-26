@@ -227,6 +227,7 @@ export default {
   line-height: 1.2;
   color: $tertiary;
   padding-left: 3%;
+  cursor: pointer;
 }
 
 // Última pregunta (serie de letras)
