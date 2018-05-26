@@ -27,7 +27,7 @@
                 </div>
               </div>
               <!-- Las categorías prenda, color y material se pueden arrastrar y ordenar -->
-              <draggable v-else v-model="answers[index]" @start="drag=true" @end="drag=false">
+              <draggable v-else v-model="answers[index]">
                 <div class="cell" v-for="word in category">
                   <div class="word">{{word}}</div>
                 </div>

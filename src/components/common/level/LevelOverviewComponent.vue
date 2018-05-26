@@ -33,11 +33,6 @@ export default {
     LevelLink
   },
   props: ['moduleName', 'moduleTitle', 'color'],
-  data: function () {
-    return {
-      levelCompleted: false // TODO: sustituir por valor en store
-    }
-  },
   computed: {
     textColor: function () {
       return 'text-' + this.color
