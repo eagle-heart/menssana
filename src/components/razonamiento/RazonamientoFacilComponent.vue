@@ -27,7 +27,7 @@
             </draggable>
           </div>
           <!-- Bloque de comprobación de respuestas -->
-          <div :class="[isAnswerChecked ? 'visible' : 'invisible', 'checkAnswer']">
+          <div :class="[isAnswerChecked ? 'visible' : 'invisible']">
             <div class="correct-answer" v-if="isAnswerCorrect">
               <i class="material-icons mens-check-circle">check_circle</i>
               ¡Correcto!
