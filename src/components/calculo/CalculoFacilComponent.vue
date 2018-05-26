@@ -126,7 +126,6 @@ export default {
     },
     result: function () { // Se suman los números que ha seleccionado el usuario
       var result = 0
-      _.map(this.answers, _.parseInt)
       _.forEach(this.answers, function (item) {
         result += _.parseInt(item)
       })

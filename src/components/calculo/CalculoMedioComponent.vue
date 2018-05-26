@@ -144,8 +144,8 @@ export default {
     checkIfAnswerIsCorrect: function () {
       var userResult = 0
       _.forEach(this.answers, function (answer) {
-        let answerValues = _.split(answer, '-') // El valor del checkbox es una cadena formada por tres números: fila-columna-valor
-        userResult += _.parseInt(answerValues[2]) // Elegimos el último número (correspondiente al valor del número)
+        let answerValues = _.split(answer, '-') // El value del checkbox es una cadena formada por tres números: fila-columna-valor
+        userResult += _.parseInt(answerValues[2]) // Elegimos el último número (correspondiente al valor)
       })
       this.isAnswerCorrect = userResult === this.correctResult
     },
@@ -179,9 +179,15 @@ export default {
 
 // Pirámide de latas
 
-.row {
+.row,
+.number,
+.number-container,
+.pyramid-container {
   display: flex;
   justify-content: center;
+}
+
+.row {
   clear: both;
 }
 
@@ -190,9 +196,7 @@ export default {
 }
 
 .number {
-  display: flex;
   align-items: center;
-  justify-content: center;
   width: 32px;
   height: 66px;
   margin: -1px 0 2px 0;
@@ -211,8 +215,6 @@ export default {
 
 .number-container {
   float: left;
-  display: flex;
-  justify-content: center;
   margin: 0 2px;
 }
 
@@ -227,8 +229,6 @@ export default {
 }
 
 .pyramid-container {
-  display: flex;
-  justify-content: center;
   align-items: center;
   margin-bottom: 4%;
 }
