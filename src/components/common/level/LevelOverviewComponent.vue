@@ -81,9 +81,6 @@ h1 {
 .module-title {
   font-family: $brand;
   font-size: 36px;
-}
-
-.module-title {
   margin: 0;
 }
 

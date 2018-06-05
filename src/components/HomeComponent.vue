@@ -7,6 +7,9 @@
       <box title="Cálculo" area="calculo" color="secondary"></box>
       <box title="Razonamiento" area="razonamiento" color="tertiary"></box>
     </div>
+    <div class="about-container">
+      <router-link to="/acerca" tag="div" class="about-link">Sobre Menssana</router-link>
+    </div>
     <Disclaimer></Disclaimer>
   </div>
 </template>
@@ -44,9 +47,24 @@ h2 {
   clear: both;
 }
 
+.about-link {
+  color: $primary;
+  font-family: $brand;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.about {
+  max-height: 1000000px; // Prevenir font-boosting en dispositivos móviles
+}
+
 @media (min-width: 768px) {
   h1 {
     margin-top: 10%;
+  }
+  .about-container {
+    padding-top: 10%;
+    clear: both;
   }
 }
 </style>

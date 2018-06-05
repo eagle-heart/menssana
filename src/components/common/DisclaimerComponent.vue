@@ -15,15 +15,9 @@ export default {
 
 .disclaimer {
   color: $front;
-  padding: 10% 4% 0;
+  padding: 4% 4% 0;
   font-size: 14px;
   clear: both;
   max-height: 1000000px; // Prevenir font-boosting en dispositivos móviles
-}
-
-@media (min-width: 768px) {
-  h1 {
-    margin-top: 10%;
-  }
 }
 </style>

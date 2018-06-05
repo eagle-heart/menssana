@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomeComponent from '@/components/HomeComponent'
+import AboutComponent from '@/components/common/AboutComponent'
 import LenguajeComponent from '@/components/lenguaje/LenguajeComponent'
 import LenguajeFacilComponent from '@/components/lenguaje/LenguajeFacilComponent'
 import LenguajeMedioComponent from '@/components/lenguaje/LenguajeMedioComponent'
@@ -22,6 +23,11 @@ export default new Router({
       path: '/',
       name: 'HomeComponent',
       component: HomeComponent
+    },
+    {
+      path: '/acerca',
+      name: 'AboutComponent',
+      component: AboutComponent
     },
     {
       path: '/lenguaje',
