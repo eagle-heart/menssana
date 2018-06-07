@@ -18,13 +18,17 @@
           <p class="question">{{question}}</p>
           <div class="answer">
             <div class="cell number" v-for="(word, index) in answers">
-              {{index + 1}}
+              <span :id="index + 1">{{index + 1}}</span>
             </div>
             <draggable v-model="answers">
               <div class="cell" v-for="word in answers">
-                <div class="word">{{word}}</div>
+                <div class="word" :id="word">{{word}}</div>
               </div>
             </draggable>
+          </div>
+          <!-- Pista -->
+          <div v-if="isHintShown">
+            <p class="hint">Pista: El {{correctAnswers[2]}} debe estar en la posición 3</p>
           </div>
           <!-- Bloque de comprobación de respuestas -->
           <div :class="[isAnswerChecked ? 'visible' : 'invisible']">
@@ -50,6 +54,12 @@
           <i class="material-icons mens-cached">cached</i>
           Volver a empezar
         </button>
+        <div class="hint-button-container">
+          <button v-if="!isEnded" class="hint-button" @click="showHint()" :disabled="isSubmitDisabled">
+            <i class="material-icons mens-play">play_arrow</i>
+            Pista
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -93,7 +103,8 @@ export default {
       module: 'razonamiento',
       multipleActivity: false,
       questionIndex: 0,
-      questions: []
+      questions: [],
+      isHintShown: false
     }
   },
   computed: {
@@ -109,6 +120,7 @@ export default {
     checkAnswer: function () {
       this.isAnswerChecked = true
       this.isSubmitDisabled = true
+      this.isHintShown = false
       if (_.isEqual(this.answers, this.correctAnswers)) {
         this.isAnswerCorrect = true
         this.endActivity() // Si la respuesta es correcta, termina la actividad
@@ -117,6 +129,8 @@ export default {
           this.isAnswerChecked = false
           this.isAnswerEmpty = true
           this.isSubmitDisabled = false
+          let number = document.getElementById("3")
+          number.classList.remove('highlighted-text')
         }, 2000)
       }
     },
@@ -126,6 +140,12 @@ export default {
     reset: function () {
       this.resetActivity()
       this.setAnswersData()
+    },
+    // Función para mostrar una pista
+    showHint: function () {
+      this.isHintShown = true
+      let number = document.getElementById("3")
+      number.classList.add('highlighted-text')
     }
   },
   created () {
@@ -213,10 +233,14 @@ export default {
   padding-bottom: 4%;
 }
 
+.highlighted-text {
+  font-weight: bold;
+}
+
 // Bloque de comprobación de respuestas
 
 .correct-answer,
-.mens-check-circle {
+.mens-check-circle, {
   font-size: 32px;
 }
 
@@ -230,16 +254,23 @@ export default {
   font-size: 28px;
 }
 
+.hint {
+  color: $tertiary;
+  margin: 0;
+}
+
 // Botones
 
 .mens-visibility,
-.mens-cached {
+.mens-cached,
+.mens-play {
   vertical-align: middle;
 }
 
 .back-button,
 .start-again-button,
-.check-answer-button {
+.check-answer-button,
+.hint-button {
   font-family: $text;
   font-size: 20px;
   padding: 1% 5%;
@@ -247,13 +278,29 @@ export default {
   border-radius: 10px;
   width: auto;
   cursor: pointer;
-  margin: 8% 0;
+  margin: 8% 0 2% 0;
+}
+
+.start-again-button,
+.hint-button {
+  background-color: $background;
+  color: $tertiary;
 }
 
 .start-again-button {
-  background-color: $background;
-  color: $tertiary;
   float: left;
+}
+
+.hint-button {
+  margin-top: 1%;
+  margin-bottom: 8%;
+  width: 170px;
+}
+
+.hint-button-container {
+  clear: both;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .back-button,
@@ -261,11 +308,11 @@ export default {
   background-color: $tertiary;
   color: $background;
   float: right;
-  margin-bottom: 6%;
 }
 
 .start-again-button:disabled,
-.check-answer-button:disabled {
+.check-answer-button:disabled,
+.hint-button:disabled {
   opacity: 0.7;
 }
 

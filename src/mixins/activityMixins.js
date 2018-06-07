@@ -48,6 +48,7 @@ var activityMixins = {
       if (typeof this.isAnswerEmpty !== 'undefined') this.isAnswerEmpty = true
       if (typeof this.answer !== 'undefined') this.answer = ''
       if (typeof this.answers !== 'undefined') this.answers = []
+      if (typeof this.isHintShown !== 'undefined') this.isHintShown = false
       // Si la actividad tiene varios ejercicios, reiniciamos las variables relacionadas con el número de preguntas
       if (this.multipleActivity) {
         this.areAllAnswersCorrect = false
