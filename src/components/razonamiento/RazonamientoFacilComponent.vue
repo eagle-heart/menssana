@@ -22,13 +22,13 @@
             </div>
             <draggable v-model="answers">
               <div class="cell" v-for="word in answers">
-                <div class="word" :id="word">{{word}}</div>
+                <div class="word">{{word}}</div>
               </div>
             </draggable>
           </div>
           <!-- Pista -->
           <div v-if="isHintShown">
-            <p class="hint">Pista: El {{correctAnswers[2]}} debe estar en la posición 3</p>
+            <p class="hint">Pista: El <strong>{{correctAnswers[2]}}</strong> debe estar en la posición 3</p>
           </div>
           <!-- Bloque de comprobación de respuestas -->
           <div :class="[isAnswerChecked ? 'visible' : 'invisible']">
