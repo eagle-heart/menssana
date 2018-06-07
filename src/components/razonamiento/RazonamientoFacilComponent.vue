@@ -129,7 +129,7 @@ export default {
           this.isAnswerChecked = false
           this.isAnswerEmpty = true
           this.isSubmitDisabled = false
-          let number = document.getElementById("3")
+          let number = document.getElementById('3')
           number.classList.remove('highlighted-text')
         }, 2000)
       }
@@ -144,7 +144,7 @@ export default {
     // Función para mostrar una pista
     showHint: function () {
       this.isHintShown = true
-      let number = document.getElementById("3")
+      let number = document.getElementById('3')
       number.classList.add('highlighted-text')
     }
   },
