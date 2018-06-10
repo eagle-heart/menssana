@@ -1,0 +1,30 @@
+/*Layout*/
+@mixin column-container ($height) {
+  height: $height;
+  clear: both;
+}
+
+@mixin column {
+  width: calc(100% / 3);
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@mixin column-left {
+  @include column;
+  justify-content: flex-start;
+  float: left;
+}
+
+@mixin column-center {
+  @include column;
+  justify-content: center;
+  float: left;
+}
+
+@mixin column-right {
+  @include column;
+  justify-content: flex-end;
+  float: right;
+}
